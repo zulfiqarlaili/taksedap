@@ -7,7 +7,7 @@
 
 ```bash
 # clone project
-git clone (project url)
+git clone https://github.com/zulfiqarlaili/taksedap.git
 
 # Install dependency
 npm install
@@ -41,6 +41,7 @@ You can preview the production build with `npm run preview`.
 
 ## Planing features
 - [ ] adding bullet point for description of store 
+- [ ] plan to user service like `firebase` or anything related for fast development
 
 
 ## Contribution
