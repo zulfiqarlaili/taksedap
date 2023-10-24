@@ -9,6 +9,9 @@
 # clone project
 git clone https://github.com/zulfiqarlaili/taksedap.git
 
+# change directory
+cd taksedap
+
 # Install dependency
 npm install
 
