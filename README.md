@@ -45,6 +45,8 @@ You can preview the production build with `npm run preview`.
 ## Planing features
 - [ ] adding bullet point for description of store 
 - [ ] plan to user service like `firebase` or anything related for fast development
+- [ ] anonymous like and dislike to let the public decide, if the gap of ratio is wide it will auto remove from list
+- [ ] implementing geofencing
 
 
 ## Contribution
