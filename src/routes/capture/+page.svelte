@@ -3,7 +3,16 @@
 	import { ImageEncoder } from 'svelte-image-input';
 
 	let imageURL: string | null = null;
-	let url: string
+	let url: string;
+	let pointArray = [''];
+	let inputPoint = '';
+
+	function scrollToBottom() {
+		window.scrollTo({
+			top: document.body.scrollHeight,
+			behavior: 'smooth'
+		});
+	}
 
 	function openCamera() {
 		const inputElement = document.getElementById('cameraInput') as HTMLInputElement;
@@ -20,10 +29,18 @@
 		}
 	}
 
+	async function addPoint() {
+		if (inputPoint) {
+			pointArray = [...pointArray, inputPoint];
+			inputPoint = '';
+			scrollToBottom();
+		}
+	}
+
 	onMount(() => {
 		const inputElement = document.getElementById('cameraInput') as HTMLInputElement;
 		inputElement.accept = 'image/*';
-		openCamera()
+		openCamera();
 	});
 </script>
 
@@ -39,27 +56,38 @@
 {#if imageURL}
 	<div class="image-container">
 		<ImageEncoder
-		bind:url
-		src={imageURL}
-		quality={0.7}
-		width={1000}
-		height={1000}
-		realTime={true}
-		crossOrigin={false}
-		classes='test'
-		showCompressedResult={false}
+			bind:url
+			src={imageURL}
+			quality={0.7}
+			width={1000}
+			height={1000}
+			realTime={true}
+			crossOrigin={false}
+			classes="image-place-holder"
+			showCompressedResult={false}
 		/>
 	</div>
 	<br />
-	<p>Size ({url && (url.length/(1024 * 1024)).toFixed(2)} MB):</p>
+	<p>Size ({url && (url.length / (1024 * 1024)).toFixed(2)} MB):</p>
 {/if}
-<input type="text" placeholder="Made-up or real store name" />
-<textarea
-  placeholder="Why tak sedap">
-</textarea>
+<input type="text" placeholder="Store name" />
+<div class="add-container">
+	<input bind:value={inputPoint} type="text" placeholder="Why tak sedap" on:change={addPoint} />
+	<button class="outline" on:click={addPoint}>+</button>
+</div>
+
+{#if pointArray}
+	{#each pointArray as item}
+		{#if item}
+			<ul>
+				• {item}
+			</ul>
+		{/if}
+	{/each}
+{/if}
 
 <style>
-	:global(.test){
+	:global(.image-place-holder) {
 		width: 100%;
 		height: 100%;
 	}
@@ -67,5 +95,12 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+	.add-container {
+		display: flex;
+		align-items: baseline;
+	}
+	.add-container input {
+		margin-right: 1rem;
 	}
 </style>

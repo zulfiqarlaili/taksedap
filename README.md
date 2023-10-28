@@ -1,4 +1,5 @@
 > this is on-going project and its still on development phase
+
 # Tak Sedap
 
 "Tak Sedap" means not delicious. We simplify the hassle of alerting users to buying from a store that is not just expensive but also not delicious. This use case or problem statement is popular among Malaysians because food stores are everywhere in Klang Valley, but users always get caught up with stores that are not delicacies and expensive.
@@ -41,13 +42,12 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
-
 ## Planing features
-- [ ] adding bullet point for description of store 
+
+- [ ] adding bullet point for description of store
 - [ ] plan to user service like `firebase` or anything related for fast development
 - [ ] anonymous like and dislike to let the public decide, if the gap of ratio is wide it will auto remove from list
 - [ ] implementing geofencing
-
 
 ## Contribution
 
