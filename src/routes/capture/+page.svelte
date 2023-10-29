@@ -4,7 +4,8 @@
 
 	let imageURL: string | null = null;
 	let url: string;
-	let pointArray = [''];
+	const example = 'Too expensive (example)';
+	let pointArray = [example];
 	let inputPoint = '';
 
 	function scrollToBottom() {
@@ -29,8 +30,12 @@
 		}
 	}
 
-	async function addPoint() {
+	const removePoint = (itemToRemove: string) =>
+		(pointArray = pointArray.filter((item) => item !== itemToRemove));
+
+	function addPoint() {
 		if (inputPoint) {
+			removePoint(example);
 			pointArray = [...pointArray, inputPoint];
 			inputPoint = '';
 			scrollToBottom();
@@ -77,13 +82,16 @@
 </div>
 
 {#if pointArray}
-	{#each pointArray as item}
-		{#if item}
-			<ul>
-				• {item}
-			</ul>
-		{/if}
-	{/each}
+	<ul>
+		{#each pointArray as item}
+			{#if item}
+				<li>
+					<span>{item}</span>
+					<button on:click={() => removePoint(item)}>&times;</button>
+				</li>
+			{/if}
+		{/each}
+	</ul>
 {/if}
 
 <style>
@@ -102,5 +110,18 @@
 	}
 	.add-container input {
 		margin-right: 1rem;
+	}
+	li button {
+		float: right;
+		border: none;
+		background: transparent;
+		padding: 0;
+		margin: 0;
+		color: #dc4f21;
+		font-size: 18px;
+		cursor: pointer;
+	}
+	li button:hover {
+		transform: scale(2);
 	}
 </style>
