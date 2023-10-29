@@ -5,7 +5,13 @@
 
 <article>
 	<img {src} alt="Card details" />
-	<div class="card-title">{title}</div>
+	<div class="card-title">
+		{title}
+		<div class="reaction-container">
+			<button><i class="fa-solid fa-thumbs-up" /> {Math.floor(Math.random() * 100)}</button>
+			<button><i class="fa-solid fa-thumbs-down" /> {Math.floor(Math.random() * 100)}</button>
+		</div>
+	</div>
 </article>
 
 <style>
@@ -26,6 +32,8 @@
 	}
 
 	.card-title {
+		display: flex;
+		flex-direction: column;
 		position: absolute;
 		bottom: 0;
 		left: 0;
@@ -38,5 +46,22 @@
 		border-bottom-left-radius: 1rem;
 		border-bottom-right-radius: 1rem;
 		backdrop-filter: blur(1px); /* Add a blur effect to the background */
+	}
+	.reaction-container {
+		display: flex;
+		flex-direction: row;
+		align-self: flex-end;
+	}
+	.reaction-container button {
+		width: 4rem;
+		border: none;
+		background: transparent;
+		padding: 0.3rem;
+		margin: 0;
+		font-size: 18px;
+		box-shadow: none;
+	}
+	.reaction-container button:active {
+		transform: scale(1.2);
 	}
 </style>

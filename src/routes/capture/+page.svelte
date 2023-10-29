@@ -120,6 +120,7 @@
 		color: #dc4f21;
 		font-size: 18px;
 		cursor: pointer;
+		box-shadow: none;
 	}
 	li button:hover {
 		transform: scale(2);
