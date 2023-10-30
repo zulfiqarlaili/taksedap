@@ -1,6 +1,8 @@
 <script>
 	export let title = 'Card title';
 	export let src = 'https://mymukahblog.files.wordpress.com/2017/03/wp-1489056606391.jpg';
+	export let like = false;
+	export let dislike = false;
 </script>
 
 <article>
@@ -8,8 +10,14 @@
 	<div class="card-title">
 		{title}
 		<div class="reaction-container">
-			<button><i class="fa-solid fa-thumbs-up" /> {Math.floor(Math.random() * 100)}</button>
-			<button><i class="fa-solid fa-thumbs-down" /> {Math.floor(Math.random() * 100)}</button>
+			<button>
+				<i class="fa-solid fa-thumbs-up" style={like ? 'color: #54AFF1' : ''} />
+				{Math.floor(Math.random() * 100)}
+			</button>
+			<button>
+				<i class="fa-solid fa-thumbs-down" style={dislike ? 'color:#FF868F' : ''} />
+				{Math.floor(Math.random() * 100)}
+		 	</button>
 		</div>
 	</div>
 </article>
