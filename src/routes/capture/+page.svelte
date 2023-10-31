@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { ImageEncoder } from 'svelte-image-input';
+	import { supabase } from '$lib/supabaseClient'
 
 	let imageURL: string | null = null;
 	let url: string;
@@ -49,52 +50,57 @@
 	});
 </script>
 
-<h3>Add new 'tak sedap' store</h3>
-<!-- <button on:click={openCamera}>Open Camera</button> -->
-<input
-	type="file"
-	accept="image/*"
-	id="cameraInput"
-	style="display: none"
-	on:change={handleFileSelect}
-/>
-{#if imageURL}
-	<div class="image-container">
-		<ImageEncoder
-			bind:url
-			src={imageURL}
-			quality={0.7}
-			width={1000}
-			height={1000}
-			realTime={true}
-			crossOrigin={false}
-			classes="image-place-holder"
-			showCompressedResult={false}
-		/>
+<div class="container">
+	<h3>Add new 'tak sedap' store</h3>
+	<!-- <button on:click={openCamera}>Open Camera</button> -->
+	<input
+		type="file"
+		accept="image/*"
+		id="cameraInput"
+		style="display: none"
+		on:change={handleFileSelect}
+	/>
+	{#if imageURL}
+		<div class="image-container">
+			<ImageEncoder
+				bind:url
+				src={imageURL}
+				quality={0.7}
+				width={1000}
+				height={1000}
+				realTime={true}
+				crossOrigin={false}
+				classes="image-place-holder"
+				showCompressedResult={false}
+			/>
+		</div>
+		<br />
+		<p>Size ({url && (url.length / (1024 * 1024)).toFixed(2)} MB):</p>
+	{/if}
+	<input type="text" placeholder="Store name" />
+	<div class="add-container">
+		<input bind:value={inputPoint} type="text" placeholder="Why tak sedap" on:change={addPoint} />
+		<button class="outline" on:click={addPoint}>+</button>
 	</div>
-	<br />
-	<p>Size ({url && (url.length / (1024 * 1024)).toFixed(2)} MB):</p>
-{/if}
-<input type="text" placeholder="Store name" />
-<div class="add-container">
-	<input bind:value={inputPoint} type="text" placeholder="Why tak sedap" on:change={addPoint} />
-	<button class="outline" on:click={addPoint}>+</button>
+
+	{#if pointArray}
+		<ul>
+			{#each pointArray as item}
+				{#if item}
+					<li>
+						<span>{item}</span>
+						<button on:click={() => removePoint(item)}>&times;</button>
+					</li>
+				{/if}
+			{/each}
+		</ul>
+	{/if}
 </div>
 
-{#if pointArray}
-	<ul>
-		{#each pointArray as item}
-			{#if item}
-				<li>
-					<span>{item}</span>
-					<button on:click={() => removePoint(item)}>&times;</button>
-				</li>
-			{/if}
-		{/each}
-	</ul>
-{/if}
-
 <style>
+	.container {
+		max-width: 30rem;
+	}
 	:global(.image-place-holder) {
 		width: 100%;
 		height: 100%;
