@@ -1,13 +1,18 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { ImageEncoder } from 'svelte-image-input';
-	import { supabase } from '$lib/supabaseClient'
+	import { supabase } from '$lib/supabaseClient';
+	import { base64ToFileBody } from '$lib/util';
+	import { v4 as uuidv4 } from "uuid";
 
 	let imageURL: string | null = null;
 	let url: string;
 	const example = 'Too expensive (example)';
 	let pointArray = [example];
 	let inputPoint = '';
+	let latitude: any = null;
+	let longitude: any = null;
+	let locationError = null;
 
 	function scrollToBottom() {
 		window.scrollTo({
@@ -43,10 +48,43 @@
 		}
 	}
 
+	const getLocation = () => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				(position) => {
+					latitude = position.coords.latitude;
+					longitude = position.coords.longitude;
+				},
+				(err) => {
+					locationError = err.message;
+				}
+			);
+		} else {
+			locationError = 'Geolocation is not supported by this browser.';
+		}
+	};
+
+	function submit() {
+		uploadFile();
+	}
+
+	async function uploadFile() {
+		const bucketName = 'storeImage';
+		const filePath = '/'+ uuidv4();
+
+		const { data, error } = await supabase.storage.from(bucketName).upload(filePath,base64ToFileBody(url));
+		if (error) {
+			console.log(error);
+		} else {
+			console.log(data);
+		}
+	}
+
 	onMount(() => {
 		const inputElement = document.getElementById('cameraInput') as HTMLInputElement;
 		inputElement.accept = 'image/*';
 		openCamera();
+		getLocation();
 	});
 </script>
 
@@ -95,6 +133,7 @@
 			{/each}
 		</ul>
 	{/if}
+	<button class="submit" on:click={submit}>Submit</button>
 </div>
 
 <style>
@@ -130,5 +169,10 @@
 	}
 	li button:hover {
 		transform: scale(2);
+	}
+
+	.submit {
+		width: 100%;
+		margin-top: 3rem;
 	}
 </style>
