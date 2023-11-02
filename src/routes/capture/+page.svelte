@@ -5,6 +5,7 @@
 	import { base64ToFileBody } from '$lib/util';
 	import { v4 as uuidv4 } from 'uuid';
 	import { goto } from '$app/navigation';
+	import {TABLE_NAME, BUCKET_NAME} from '$lib/constants'
 
 	let imageURL: string | null = null;
 	let imageBase64: string;
@@ -23,8 +24,8 @@
 	let isLoading: boolean = false;
 	let isDisabled: boolean = true;
 
-	const tableName = 'stores';
-	const bucketName = 'storeImage';
+	const tableName = TABLE_NAME;
+	const bucketName = BUCKET_NAME;
 
 	function scrollToBottom() {
 		window.scrollTo({

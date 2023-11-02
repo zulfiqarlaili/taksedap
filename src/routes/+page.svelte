@@ -32,7 +32,7 @@
 <div class="cardList_container">
 	{#each data.cardList as item}
 		<Card
-			title={item.title}
+			title={item.storeName}
 			src={item.url}
 			like={Math.random() < 0.5}
 			dislike={Math.random() < 0.5}
@@ -51,6 +51,8 @@
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
+		margin-top: 4rem;
+		margin-bottom: 5rem;
 	}
 
 	a.circle-button {
