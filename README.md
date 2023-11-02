@@ -45,10 +45,12 @@ You can preview the production build with `npm run preview`.
 ## Planing features
 
 - [x] adding bullet point for description of store
-- [ ] setting up `supabase`
-- [ ] implementing geofencing
-- [ ] Upload image
+- [x] setting up `supabase`
+- [x] Upload image
+- [x] view store from db
 - [ ] anonymous like and dislike to let the public decide
+- [ ] implementing geofencing
+- [ ] show description details when click on card
 
 ## Contribution
 

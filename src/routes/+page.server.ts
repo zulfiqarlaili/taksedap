@@ -4,9 +4,8 @@ import { TABLE_NAME } from '$lib/constants'
 
 export async function load() {
 	const response = await fetchStore();
-	console.log(response);
 	return {
-		cardList: response
+		stores: response
 	};
 }
 

@@ -30,10 +30,10 @@
 </script>
 
 <div class="cardList_container">
-	{#each data.cardList as item}
+	{#each data.stores as store}
 		<Card
-			title={item.storeName}
-			src={item.url}
+			title={store.storeName}
+			src={store.url}
 			like={Math.random() < 0.5}
 			dislike={Math.random() < 0.5}
 		/>
