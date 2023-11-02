@@ -47,10 +47,10 @@ You can preview the production build with `npm run preview`.
 - [x] adding bullet point for description of store
 - [x] setting up `supabase`
 - [x] Upload image
-- [x] view store from db
-- [ ] anonymous like and dislike to let the public decide
-- [ ] implementing geofencing
-- [ ] show description details when click on card
+- [x] Display list of store
+- [ ] Like and dislike function
+- [ ] Implementing geofencing
+- [ ] Display description
 
 ## Contribution
 
