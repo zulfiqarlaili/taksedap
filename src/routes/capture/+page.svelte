@@ -3,16 +3,28 @@
 	import { ImageEncoder } from 'svelte-image-input';
 	import { supabase } from '$lib/supabaseClient';
 	import { base64ToFileBody } from '$lib/util';
-	import { v4 as uuidv4 } from "uuid";
+	import { v4 as uuidv4 } from 'uuid';
+	import { goto } from '$app/navigation';
 
 	let imageURL: string | null = null;
-	let url: string;
-	const example = 'Too expensive (example)';
-	let pointArray = [example];
+	let imageBase64: string;
+
+	let descriptionList = [''];
 	let inputPoint = '';
+
 	let latitude: any = null;
 	let longitude: any = null;
-	let locationError = null;
+	let locationError: any = null;
+
+	let storeId: string = '';
+	let storeName: string;
+	let url: string;
+
+	let isLoading: boolean = false;
+	let isDisabled: boolean = true;
+
+	const tableName = 'stores';
+	const bucketName = 'storeImage';
 
 	function scrollToBottom() {
 		window.scrollTo({
@@ -31,20 +43,40 @@
 		const selectedFile = inputElement.files?.[0];
 
 		if (selectedFile) {
-			const fileURL = URL.createObjectURL(selectedFile);
-			imageURL = fileURL;
+			imageURL = URL.createObjectURL(selectedFile);
+			base64ToFileBody(imageBase64);
 		}
 	}
 
-	const removePoint = (itemToRemove: string) =>
-		(pointArray = pointArray.filter((item) => item !== itemToRemove));
+	async function handleUploadFile(path: string) {
+		const filePath = '/' + path;
+
+		isLoading = true;
+		const { data, error } = await supabase.storage
+			.from(bucketName)
+			.upload(filePath, base64ToFileBody(imageBase64));
+
+		if (error) {
+			isLoading = false;
+			alert(error.message);
+			return null;
+		} else {
+			isLoading = false;
+			return data;
+		}
+	}
+
+	const removePoint = (itemToRemove: string) => {
+		descriptionList = descriptionList.filter((item) => item !== itemToRemove);
+		validateInput();
+	};
 
 	function addPoint() {
 		if (inputPoint) {
-			removePoint(example);
-			pointArray = [...pointArray, inputPoint];
+			descriptionList = [...descriptionList, inputPoint];
 			inputPoint = '';
 			scrollToBottom();
+			validateInput();
 		}
 	}
 
@@ -64,19 +96,41 @@
 		}
 	};
 
-	function submit() {
-		uploadFile();
+	async function handleSubmit() {
+		if (locationError) {
+			alert(locationError);
+		} else {
+			storeId = uuidv4();
+			let res = await handleUploadFile(storeId);
+			if (res) {
+				const insertData = {
+					storeId,
+					storeName,
+					descriptionList: descriptionList.filter((item) => item !== ''),
+					url:
+						'https://gxqszfrqmsnuzuetyjgz.supabase.co/storage/v1/object/public/storeImage/' +
+						storeId,
+					location: `POINT(${latitude} ${longitude})`
+				};
+				isLoading = true;
+				const { data, error } = await supabase.from(tableName).insert(insertData);
+				if (error) {
+					isLoading = false;
+					alert(error.message);
+				} else {
+					isLoading = false;
+					alert('Submit complete');
+					goto('/');
+				}
+			}
+		}
 	}
 
-	async function uploadFile() {
-		const bucketName = 'storeImage';
-		const filePath = '/'+ uuidv4();
-
-		const { data, error } = await supabase.storage.from(bucketName).upload(filePath,base64ToFileBody(url));
-		if (error) {
-			console.log(error);
+	function validateInput() {
+		if (storeName.length > 3 && descriptionList.length > 1 && imageURL) {
+			isDisabled = false;
 		} else {
-			console.log(data);
+			isDisabled = true;
 		}
 	}
 
@@ -90,7 +144,6 @@
 
 <div class="container">
 	<h3>Add new 'tak sedap' store</h3>
-	<!-- <button on:click={openCamera}>Open Camera</button> -->
 	<input
 		type="file"
 		accept="image/*"
@@ -101,7 +154,7 @@
 	{#if imageURL}
 		<div class="image-container">
 			<ImageEncoder
-				bind:url
+				bind:url={imageBase64}
 				src={imageURL}
 				quality={0.7}
 				width={1000}
@@ -113,17 +166,27 @@
 			/>
 		</div>
 		<br />
-		<p>Size ({url && (url.length / (1024 * 1024)).toFixed(2)} MB):</p>
+		<p>Size ({imageBase64 && (imageBase64.length / (1024 * 1024)).toFixed(2)} MB):</p>
 	{/if}
-	<input type="text" placeholder="Store name" />
+	<input type="text" placeholder="Store name" bind:value={storeName} on:input={validateInput} />
+	<small>Or any name that can related to the store</small>
 	<div class="add-container">
-		<input bind:value={inputPoint} type="text" placeholder="Why tak sedap" on:change={addPoint} />
+		<div style="width: 100%; margin-right:1rem">
+			<input
+				bind:value={inputPoint}
+				type="text"
+				placeholder="Why tak sedap"
+				on:change={addPoint}
+				on:input={validateInput}
+			/>
+			<small>Too expensive (example)</small>
+		</div>
 		<button class="outline" on:click={addPoint}>+</button>
 	</div>
 
-	{#if pointArray}
+	{#if descriptionList}
 		<ul>
-			{#each pointArray as item}
+			{#each descriptionList as item}
 				{#if item}
 					<li>
 						<span>{item}</span>
@@ -133,7 +196,13 @@
 			{/each}
 		</ul>
 	{/if}
-	<button class="submit" on:click={submit}>Submit</button>
+	<button class="submit" aria-busy={isLoading} disabled={isDisabled} on:click={handleSubmit}>
+		{#if !isLoading}
+			Submit
+		{:else}
+			Please wait…
+		{/if}
+	</button>
 </div>
 
 <style>
@@ -174,5 +243,6 @@
 	.submit {
 		width: 100%;
 		margin-top: 3rem;
+		margin-bottom: 4rem;
 	}
 </style>
