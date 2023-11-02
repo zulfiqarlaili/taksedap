@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Card from '$lib/card.svelte';
 	import { onMount, onDestroy } from 'svelte';
-	export let data;
+	export let data: any;
 
 	// Handle floating button START
 	let isVisible = true;
@@ -30,6 +30,11 @@
 </script>
 
 <div class="cardList_container">
+	{#if data.stores.length === 0}
+		<h3>No "tak sedap" store nearby</h3>
+		<small>Press + button to add new store</small>
+		<small>Don't simply add!</small>
+	{/if}
 	{#each data.stores as store}
 		<Card
 			title={store.storeName}
