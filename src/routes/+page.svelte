@@ -51,6 +51,7 @@
 			<Card
 				title={store.storeName}
 				src={store.url}
+				descriptionList={store.descriptionList}
 				like={Math.random() < 0.5}
 				dislike={Math.random() < 0.5}
 			/>
