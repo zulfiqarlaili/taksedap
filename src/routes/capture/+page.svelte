@@ -5,7 +5,7 @@
 	import { base64ToFileBody } from '$lib/util';
 	import { v4 as uuidv4 } from 'uuid';
 	import { goto } from '$app/navigation';
-	import {TABLE_NAME, BUCKET_NAME} from '$lib/constants'
+	import { TABLE_NAME, BUCKET_NAME, SUPABASE_STORE_URL } from '$lib/constants';
 
 	let imageURL: string | null = null;
 	let imageBase64: string;
@@ -19,13 +19,9 @@
 
 	let storeId: string = '';
 	let storeName: string;
-	let url: string;
 
 	let isLoading: boolean = false;
 	let isDisabled: boolean = true;
-
-	const tableName = TABLE_NAME;
-	const bucketName = BUCKET_NAME;
 
 	function scrollToBottom() {
 		window.scrollTo({
@@ -37,34 +33,6 @@
 	function openCamera() {
 		const inputElement = document.getElementById('cameraInput') as HTMLInputElement;
 		inputElement.click();
-	}
-
-	function handleFileSelect(event: any) {
-		const inputElement = event.target as HTMLInputElement;
-		const selectedFile = inputElement.files?.[0];
-
-		if (selectedFile) {
-			imageURL = URL.createObjectURL(selectedFile);
-			base64ToFileBody(imageBase64);
-		}
-	}
-
-	async function handleUploadFile(path: string) {
-		const filePath = '/' + path;
-
-		isLoading = true;
-		const { data, error } = await supabase.storage
-			.from(bucketName)
-			.upload(filePath, base64ToFileBody(imageBase64));
-
-		if (error) {
-			isLoading = false;
-			alert(error.message);
-			return null;
-		} else {
-			isLoading = false;
-			return data;
-		}
 	}
 
 	const removePoint = (itemToRemove: string) => {
@@ -97,6 +65,33 @@
 		}
 	};
 
+	function handleFileSelect(event: any) {
+		const inputElement = event.target as HTMLInputElement;
+		const selectedFile = inputElement.files?.[0];
+
+		if (selectedFile) {
+			imageURL = URL.createObjectURL(selectedFile);
+			base64ToFileBody(imageBase64);
+		}
+	}
+
+	async function handleUploadFile(path: string) {
+		const filePath = '/' + path;
+
+		isLoading = true;
+		const { data, error } = await supabase.storage
+			.from(BUCKET_NAME)
+			.upload(filePath, base64ToFileBody(imageBase64));
+
+		if (error) {
+			isLoading = false;
+			alert(error.message);
+			return null;
+		} else {
+			isLoading = false;
+			return data;
+		}
+	}
 	async function handleSubmit() {
 		if (locationError) {
 			alert(locationError);
@@ -108,13 +103,11 @@
 					storeId,
 					storeName,
 					descriptionList: descriptionList.filter((item) => item !== ''),
-					url:
-						'https://gxqszfrqmsnuzuetyjgz.supabase.co/storage/v1/object/public/storeImage/' +
-						storeId,
+					url: SUPABASE_STORE_URL + storeId,
 					location: `POINT(${latitude} ${longitude})`
 				};
 				isLoading = true;
-				const { data, error } = await supabase.from(tableName).insert(insertData);
+				const { data, error } = await supabase.from(TABLE_NAME).insert(insertData);
 				if (error) {
 					isLoading = false;
 					alert(error.message);
