@@ -60,21 +60,20 @@
 		margin: 0;
 		padding: 0;
 	}
-	
+
 	.description-container {
 		max-width: 25rem;
 		padding-left: 0;
 		padding-right: 0;
 		border-radius: 1rem;
-		
 	}
-	
+
 	img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 	}
-	
+
 	.card-title {
 		display: flex;
 		flex-direction: column;
@@ -175,5 +174,15 @@
 
 	details summary::after {
 		width: 0;
+	}
+
+	details summary:active {
+		transform: scale(1.01);
+	}
+
+	@media only screen and (min-width: 768px) {
+		details summary:hover {
+			transform: scale(1.01);
+		}
 	}
 </style>
