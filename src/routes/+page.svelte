@@ -6,6 +6,7 @@
 	// Handle floating button START
 	let isVisible = true;
 	let scrollTimeout: any;
+	let isLoading = true;
 
 	function handleScroll() {
 		isVisible = false;
@@ -19,6 +20,10 @@
 		if (typeof window !== 'undefined') {
 			window.addEventListener('scroll', handleScroll);
 		}
+
+		if (data) {
+			isLoading = false;
+		}
 	});
 
 	onDestroy(() => {
@@ -30,20 +35,28 @@
 </script>
 
 <div class="cardList_container">
-	{#if data.stores.length === 0}
-		<h3>No "tak sedap" store nearby</h3>
-		<small>Press + button to add new store</small>
-		<small>Don't simply add!</small>
-	{/if}
-	{#each data.stores as store}
-		<Card
-			title={store.storeName}
-			src={store.url}
-			like={Math.random() < 0.5}
-			dislike={Math.random() < 0.5}
-		/>
+	{#if isLoading}
+		<Card {isLoading} />
 		<br />
-	{/each}
+		<Card {isLoading} />
+		<br />
+		<Card {isLoading} />
+	{:else}
+		{#if data.stores.length === 0}
+			<h3>No "tak sedap" store nearby</h3>
+			<small>Press + button to add new store</small>
+			<small>Don't simply add!</small>
+		{/if}
+		{#each data.stores as store}
+			<Card
+				title={store.storeName}
+				src={store.url}
+				like={Math.random() < 0.5}
+				dislike={Math.random() < 0.5}
+			/>
+			<br />
+		{/each}
+	{/if}
 </div>
 
 {#if isVisible}
