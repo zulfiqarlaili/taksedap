@@ -1,4 +1,5 @@
 <script>
+	import { lazyLoad } from './lazyLoad.js'
 	export let title = 'Card title';
 	export let src = 'https://mymukahblog.files.wordpress.com/2017/03/wp-1489056606391.jpg';
 	export let like = false;
@@ -15,7 +16,7 @@
 		</article>
 	{:else}
 		<article>
-			<img {src} alt="Card details" />
+			<img use:lazyLoad={src} alt="Card details" />
 			<div class="card-title">
 				{title}
 				<div class="reaction-container">
