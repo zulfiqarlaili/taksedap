@@ -48,9 +48,10 @@ You can preview the production build with `npm run preview`.
 - [x] setting up `supabase`
 - [x] Upload image
 - [x] Display list of store
+- [x] Display description
+- [ ] User identifier
 - [ ] Like and dislike function
 - [ ] Implementing geofencing
-- [ ] Display description
 
 ## Contribution
 
