@@ -3,7 +3,6 @@
 	import { onMount, onDestroy } from 'svelte';
 	export let data: any;
 
-	// Handle floating button START
 	let isVisible = true;
 	let scrollTimeout: any;
 	let isLoading = true;
@@ -31,7 +30,6 @@
 			window.removeEventListener('scroll', handleScroll);
 		}
 	});
-	// Handle floating button END
 </script>
 
 <div class="cardList_container">
@@ -48,13 +46,7 @@
 			<small>Don't simply add!</small>
 		{/if}
 		{#each data.stores as store}
-			<Card
-				title={store.storeName}
-				src={store.url}
-				descriptionList={store.descriptionList}
-				like={Math.random() < 0.5}
-				dislike={Math.random() < 0.5}
-			/>
+			<Card {store}/>
 			<br />
 		{/each}
 	{/if}

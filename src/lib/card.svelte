@@ -1,11 +1,15 @@
-<script>
+<script lang="ts">
+	import type { IStore } from './interface.js';
 	import { lazyLoad } from './lazyLoad.js';
-	export let title = 'Card title';
-	export let src = 'https://mymukahblog.files.wordpress.com/2017/03/wp-1489056606391.jpg';
-	export let like = false;
-	export let dislike = false;
+	export let store:IStore = {
+        storeId: '', // Empty string
+        storeName: '', // Empty string
+        descriptionList: [], // Empty array
+        url: '', // Empty string
+        likeCount: 0, // Default to 0
+        dislikeCount: 0 // Default to 0
+    }
 	export let isLoading = false;
-	export let descriptionList = [''];
 </script>
 
 <div class="container">
@@ -19,16 +23,19 @@
 		<details>
 			<summary>
 				<article class="image-container">
-					<img use:lazyLoad={src} alt="Card details" />
+					<img use:lazyLoad={store.url} alt="Card details" />
 					<div class="card-title">
-						{title}
+						{store.storeName}
 						<div class="reaction-container">
 							<button>
-								<i class="fa-solid fa-thumbs-up" style={like ? 'color: #54AFF1' : ''} />
+								<i class="fa-solid fa-thumbs-up" style={store.likeCount ? 'color: #54AFF1' : ''} />
 								{Math.floor(Math.random() * 100)}
 							</button>
 							<button>
-								<i class="fa-solid fa-thumbs-down" style={dislike ? 'color:#FF868F' : ''} />
+								<i
+									class="fa-solid fa-thumbs-down"
+									style={store.dislikeCount ? 'color:#FF868F' : ''}
+								/>
 								{Math.floor(Math.random() * 100)}
 							</button>
 						</div>
@@ -37,7 +44,7 @@
 			</summary>
 			<article class="description-container">
 				<ul>
-					{#each descriptionList as item}
+					{#each store.descriptionList as item}
 						<li>{item}</li>
 					{/each}
 				</ul>
