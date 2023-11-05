@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import type { IStore } from './interface.js';
 	import { lazyLoad } from './lazyLoad.js';
+	import { createEventDispatcher } from 'svelte';
+
 	export let store: IStore = {
 		storeId: '', // Empty string
 		storeName: '', // Empty string
@@ -10,9 +12,14 @@
 		likeCount: 0, // Default to 0
 		dislikeCount: 0 // Default to 0
 	};
-
 	export let isLoading = false;
-	let isReacted: boolean | undefined;
+	export let isReacted: boolean | undefined;
+
+	const dispatch = createEventDispatcher();
+
+	function handleReactionButton() {
+		dispatch('cardClicked', {...store});
+	}
 
 	function handleReaction(input: boolean | undefined) {
 		switch (isReacted) {
@@ -53,6 +60,7 @@
 							<button
 								on:click={() => {
 									handleReaction(true);
+									handleReactionButton();
 								}}
 							>
 								<i class={`fa-solid fa-thumbs-up ${isReacted === true ? 'reacted-true' : ''}`} />
@@ -61,6 +69,7 @@
 							<button
 								on:click={() => {
 									handleReaction(false);
+									handleReactionButton();
 								}}
 							>
 								<i class={`fa-solid fa-thumbs-up ${isReacted === false ? 'reacted-false' : ''}`} />

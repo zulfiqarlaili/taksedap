@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Card from '$lib/card.svelte';
+	import type { IStore } from '$lib/interface';
 	import { onMount, onDestroy } from 'svelte';
 	export let data: any;
 
@@ -13,6 +14,11 @@
 		scrollTimeout = setTimeout(() => {
 			isVisible = true;
 		}, 1000);
+	}
+
+	function handleReactionButton(event:any){
+		const store:IStore = event.detail
+		alert(store.storeName)
 	}
 
 	onMount(() => {
@@ -34,11 +40,11 @@
 
 <div class="cardList_container">
 	{#if isLoading}
-		<Card {isLoading} />
+		<Card isReacted={undefined} {isLoading} />
 		<br />
-		<Card {isLoading} />
+		<Card isReacted={undefined} {isLoading} />
 		<br />
-		<Card {isLoading} />
+		<Card isReacted={undefined} {isLoading} />
 	{:else}
 		{#if data.stores.length === 0}
 			<h3>No "tak sedap" store nearby</h3>
@@ -46,7 +52,7 @@
 			<small>Don't simply add!</small>
 		{/if}
 		{#each data.stores as store}
-			<Card {store}/>
+			<Card isReacted={undefined} {store} on:cardClicked={handleReactionButton}/>
 			<br />
 		{/each}
 	{/if}
