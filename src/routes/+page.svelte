@@ -18,7 +18,7 @@
 
 	function handleReactionButton(event:any){
 		const store:IStore = event.detail
-		alert(store.storeName)
+		// alert(store.storeName)
 	}
 
 	onMount(() => {

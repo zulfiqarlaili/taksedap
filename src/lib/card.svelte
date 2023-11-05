@@ -17,10 +17,6 @@
 
 	const dispatch = createEventDispatcher();
 
-	function handleReactionButton() {
-		dispatch('cardClicked', {...store});
-	}
-
 	function handleReaction(input: boolean | undefined) {
 		switch (isReacted) {
 			case undefined:
@@ -37,6 +33,10 @@
 		}
 	}
 
+	function handleReactionButton(input: boolean | undefined) {
+		handleReaction(input);
+		dispatch('cardClicked', { ...store });
+	}
 	onMount(() => {
 		console.log(isReacted);
 	});
@@ -59,8 +59,7 @@
 						<div class="reaction-container">
 							<button
 								on:click={() => {
-									handleReaction(true);
-									handleReactionButton();
+									handleReactionButton(true);
 								}}
 							>
 								<i class={`fa-solid fa-thumbs-up ${isReacted === true ? 'reacted-true' : ''}`} />
@@ -68,8 +67,7 @@
 							</button>
 							<button
 								on:click={() => {
-									handleReaction(false);
-									handleReactionButton();
+									handleReactionButton(false);
 								}}
 							>
 								<i class={`fa-solid fa-thumbs-up ${isReacted === false ? 'reacted-false' : ''}`} />
