@@ -5,29 +5,35 @@ let options = {
 }
 
 export const lazyLoad = (image, src) => {
+    const placeholderSrc = 'https://placehold.co/600x400'; // Replace 'placeholder.jpg' with your placeholder image URL
+
     const loaded = () => {
-        image.classList.add('visible')
+        image.classList.add('visible');
     }
+
     const observer = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
+            // Load placeholder image initially
+            image.src = placeholderSrc;
+
             // replace placeholder src with the image src on observe
-            image.src = src
-            // check if instantly loaded
+            image.src = src;
+
             if (image.complete) {
-                loaded()
+                loaded();
             } else {
                 // if the image isn't loaded yet, add an event listener
-                image.addEventListener('load', loaded)
+                image.addEventListener('load', loaded);
             }
         }
-    }, options)
-    // intersection observer
-    observer.observe(image)
+    }, options);
+
+    observer.observe(image);
 
     return {
         destroy() {
-            // clean up the event listener
-            image.removeEventListener('load', loaded)
+            image.removeEventListener('load', loaded);
+            observer.disconnect();
         }
     }
 }

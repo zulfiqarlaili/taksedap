@@ -48,8 +48,7 @@
 				<article class="image-container">
 					<img use:lazyLoad={store.url} alt="Card details" />
 					<div class="card-title">
-						<!-- {store.storeName} -->
-						{isReacted}
+						{store.storeName}
 						<div class="reaction-container">
 							<button
 								on:click={() => {
