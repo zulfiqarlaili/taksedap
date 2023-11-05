@@ -1,15 +1,38 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { IStore } from './interface.js';
 	import { lazyLoad } from './lazyLoad.js';
-	export let store:IStore = {
-        storeId: '', // Empty string
-        storeName: '', // Empty string
-        descriptionList: [], // Empty array
-        url: '', // Empty string
-        likeCount: 0, // Default to 0
-        dislikeCount: 0 // Default to 0
-    }
+	export let store: IStore = {
+		storeId: '', // Empty string
+		storeName: '', // Empty string
+		descriptionList: [], // Empty array
+		url: '', // Empty string
+		likeCount: 0, // Default to 0
+		dislikeCount: 0 // Default to 0
+	};
+
 	export let isLoading = false;
+	let isReacted: boolean | undefined;
+
+	function handleReaction(input: boolean | undefined) {
+		switch (isReacted) {
+			case undefined:
+				isReacted = input;
+				break;
+			case true:
+				isReacted = input === true ? undefined : false;
+				break;
+			case false:
+				isReacted = input === false ? undefined : true;
+				break;
+			default:
+				break;
+		}
+	}
+
+	onMount(() => {
+		console.log(isReacted);
+	});
 </script>
 
 <div class="container">
@@ -25,18 +48,24 @@
 				<article class="image-container">
 					<img use:lazyLoad={store.url} alt="Card details" />
 					<div class="card-title">
-						{store.storeName}
+						<!-- {store.storeName} -->
+						{isReacted}
 						<div class="reaction-container">
-							<button>
-								<i class="fa-solid fa-thumbs-up" style={store.likeCount ? 'color: #54AFF1' : ''} />
-								{Math.floor(Math.random() * 100)}
+							<button
+								on:click={() => {
+									handleReaction(true);
+								}}
+							>
+								<i class={`fa-solid fa-thumbs-up ${isReacted === true ? 'reacted-true' : ''}`} />
+								{store.likeCount}
 							</button>
-							<button>
-								<i
-									class="fa-solid fa-thumbs-down"
-									style={store.dislikeCount ? 'color:#FF868F' : ''}
-								/>
-								{Math.floor(Math.random() * 100)}
+							<button
+								on:click={() => {
+									handleReaction(false);
+								}}
+							>
+								<i class={`fa-solid fa-thumbs-up ${isReacted === false ? 'reacted-false' : ''}`} />
+								{store.dislikeCount}
 							</button>
 						</div>
 					</div>
@@ -110,9 +139,18 @@
 		margin: 0;
 		font-size: 18px;
 		box-shadow: none;
+		position: relative;
 	}
 	.reaction-container button:active {
 		transform: scale(1.2);
+	}
+
+	.reacted-true {
+		color: #54aff1;
+	}
+
+	.reacted-false {
+		color: #ff868f;
 	}
 
 	.skeleton-loading {
@@ -183,8 +221,8 @@
 		width: 0;
 	}
 
-	details summary:active {
-		transform: scale(1.01);
+	img:active {
+		transform: scale(1.02);
 	}
 
 	@media only screen and (min-width: 768px) {
