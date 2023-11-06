@@ -5,4 +5,10 @@ export interface IStore {
     url: string;
     likeCount: number;
     dislikeCount: number;
+    isReacted?: boolean
+    removeReaction?: boolean
+}
+export interface IReaction {
+    stationId: string;
+    reaction: string;
 }

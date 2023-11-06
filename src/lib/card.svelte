@@ -35,7 +35,11 @@
 
 	function handleReactionButton(input: boolean | undefined) {
 		handleReaction(input);
-		dispatch('cardClicked', { ...store });
+		let removeReaction = false 
+		if((input === false && isReacted == undefined) || (input === true && isReacted == undefined)){
+			removeReaction = true;	
+		}
+		dispatch('cardClicked', { ...store, isReacted ,removeReaction});
 	}
 	onMount(() => {
 		console.log(isReacted);

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Card from '$lib/card.svelte';
 	import type { IStore } from '$lib/interface';
+	import { addOrUpdateReaction, deleteReaction } from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
 	export let data: any;
 
@@ -16,9 +17,15 @@
 		}, 1000);
 	}
 
-	function handleReactionButton(event:any){
-		const store:IStore = event.detail
-		// alert(store.storeName)
+	function handleReactionButton(event: any) {
+		const store: IStore = event.detail;
+		// console.log('reaction',store.isReacted)
+		// console.log('isRemoved',store.removeReaction)
+		if (!store.removeReaction) {
+			addOrUpdateReaction(store.storeId,store.isReacted)
+		}else{
+			deleteReaction(store.storeId)
+		}
 	}
 
 	onMount(() => {
@@ -52,7 +59,7 @@
 			<small>Don't simply add!</small>
 		{/if}
 		{#each data.stores as store}
-			<Card isReacted={undefined} {store} on:cardClicked={handleReactionButton}/>
+			<Card isReacted={undefined} {store} on:cardClicked={handleReactionButton} />
 			<br />
 		{/each}
 	{/if}

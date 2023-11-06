@@ -1,3 +1,4 @@
+import type { IReaction } from "./interface";
 
 export function base64ToFileBody(base64String: string) {
     const byteCharacters = atob(base64String.split(';base64,')[1]);
@@ -11,18 +12,13 @@ export function base64ToFileBody(base64String: string) {
     return new File([blob], 'image.jpg', { type: 'image/jpeg' });
 }
 
-interface IReaction {
-    stationId: string;
-    reaction: string;
-}
-
 function getReactionList() {
     const reactionList = localStorage.getItem('reactionList');
     return reactionList ? JSON.parse(reactionList) : [];
 }
 
 // Function to add or update a reaction in the reactionList
-export function addOrUpdateReaction(stationId: string, reaction: boolean) {
+export function addOrUpdateReaction(stationId: string, reaction: boolean | undefined) {
     const reactionList = getReactionList();
 
     // Check if the stationId already exists in the reactionList
