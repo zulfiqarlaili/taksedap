@@ -41,9 +41,6 @@
 		}
 		dispatch('cardClicked', { ...store, isReacted ,removeReaction});
 	}
-	onMount(() => {
-		console.log(isReacted);
-	});
 </script>
 
 <div class="container">

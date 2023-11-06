@@ -17,32 +17,31 @@ function getReactionList() {
     return reactionList ? JSON.parse(reactionList) : [];
 }
 
-// Function to add or update a reaction in the reactionList
-export function addOrUpdateReaction(stationId: string, reaction: boolean | undefined) {
+export function isReaction(storeId: string) {
     const reactionList = getReactionList();
+    const storeData = reactionList.find((item: IReaction) => item.storeId === storeId);
+    return (storeData === undefined) ? undefined : storeData.reaction
+}
 
-    // Check if the stationId already exists in the reactionList
-    const existingReactionIndex = reactionList.findIndex((item: IReaction) => item.stationId === stationId);
+export function updateReactionCount() {
+
+}
+
+export function addOrUpdateReaction(storeId: string, reaction: boolean | undefined) {
+    const reactionList = getReactionList();
+    const existingReactionIndex = reactionList.findIndex((item: IReaction) => item.storeId === storeId);
 
     if (existingReactionIndex !== -1) {
-        // If the stationId exists, update the reaction
         reactionList[existingReactionIndex].reaction = reaction;
     } else {
-        // If the stationId doesn't exist, add a new reaction
-        reactionList.push({ stationId, reaction });
+        reactionList.push({ storeId, reaction });
     }
-
-    // Save the updated reactionList in localStorage
     localStorage.setItem('reactionList', JSON.stringify(reactionList));
 }
 
-// Function to delete a reaction from the reactionList
-export function deleteReaction(stationId: string) {
+export function deleteReaction(storeId: string) {
     let reactionList = getReactionList();
 
-    // Filter out the item with the given stationId
-    reactionList = reactionList.filter((item: IReaction) => item.stationId !== stationId);
-
-    // Save the updated reactionList in localStorage
+    reactionList = reactionList.filter((item: IReaction) => item.storeId !== storeId);
     localStorage.setItem('reactionList', JSON.stringify(reactionList));
 }

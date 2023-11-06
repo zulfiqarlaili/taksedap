@@ -9,6 +9,6 @@ export interface IStore {
     removeReaction?: boolean
 }
 export interface IReaction {
-    stationId: string;
+    storeId: string;
     reaction: string;
 }
