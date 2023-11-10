@@ -19,7 +19,6 @@ async function fetchStore() {
 		throw error(500, {
 			message: errorMessage.message
 		});
-
 	}
 	return stores;
 }

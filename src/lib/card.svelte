@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import type { IStore } from './interface.js';
 	import { lazyLoad } from './lazyLoad.js';
 	import { createEventDispatcher } from 'svelte';
@@ -34,12 +33,24 @@
 	}
 
 	function handleReactionButton(input: boolean | undefined) {
+		let isSwitchReaction =
+			isReacted === true && input === false
+				? true
+				: isReacted === false && input === true
+				? false
+				: undefined;
+
 		handleReaction(input);
-		let removeReaction = false 
-		if((input === false && isReacted == undefined) || (input === true && isReacted == undefined)){
-			removeReaction = true;	
+		let removeReaction = false;
+		if ((input === false && isReacted == undefined) || (input === true && isReacted == undefined)) {
+			removeReaction = true;
 		}
-		dispatch('cardClicked', { ...store, isReacted ,removeReaction});
+		dispatch('cardClicked', {
+			...store,
+			isReacted,
+			removeReaction,
+			previousReaction: isSwitchReaction
+		});
 	}
 </script>
 

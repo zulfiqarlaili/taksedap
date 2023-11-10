@@ -3,10 +3,11 @@ export interface IStore {
     storeName: string
     descriptionList: string[];
     url: string;
-    likeCount: number;
-    dislikeCount: number;
+    likeCount?: number;
+    dislikeCount?: number;
     isReacted?: boolean
     removeReaction?: boolean
+    previousReaction?: boolean
 }
 export interface IReaction {
     storeId: string;
