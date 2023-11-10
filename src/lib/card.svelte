@@ -12,20 +12,20 @@
 		dislikeCount: 0
 	};
 	export let isLoading = false;
-	export let isReacted: boolean | undefined;
+	export let reaction: boolean | undefined;
 
 	const dispatch = createEventDispatcher();
 
 	function handleReaction(input: boolean | undefined) {
-		switch (isReacted) {
+		switch (reaction) {
 			case undefined:
-				isReacted = input;
+				reaction = input;
 				break;
 			case true:
-				isReacted = input === true ? undefined : false;
+				reaction = input === true ? undefined : false;
 				break;
 			case false:
-				isReacted = input === false ? undefined : true;
+				reaction = input === false ? undefined : true;
 				break;
 			default:
 				break;
@@ -34,20 +34,20 @@
 
 	function handleReactionButton(input: boolean | undefined) {
 		let isSwitchReaction =
-			isReacted === true && input === false
+			reaction === true && input === false
 				? true
-				: isReacted === false && input === true
+				: reaction === false && input === true
 				? false
 				: undefined;
 
 		handleReaction(input);
 		let removeReaction = false;
-		if ((input === false && isReacted == undefined) || (input === true && isReacted == undefined)) {
+		if ((input === false && reaction == undefined) || (input === true && reaction == undefined)) {
 			removeReaction = true;
 		}
 		dispatch('cardClicked', {
 			...store,
-			isReacted,
+			reaction: reaction,
 			removeReaction,
 			previousReaction: isSwitchReaction
 		});
@@ -74,7 +74,7 @@
 									handleReactionButton(true);
 								}}
 							>
-								<i class={`fa-solid fa-thumbs-up ${isReacted === true ? 'reacted-true' : ''}`} />
+								<i class={`fa-solid fa-thumbs-up ${reaction === true ? 'reacted-true' : ''}`} />
 								{store.likeCount}
 							</button>
 							<button
@@ -82,7 +82,7 @@
 									handleReactionButton(false);
 								}}
 							>
-								<i class={`fa-solid fa-thumbs-up ${isReacted === false ? 'reacted-false' : ''}`} />
+								<i class={`fa-solid fa-thumbs-up ${reaction === false ? 'reacted-false' : ''}`} />
 								{store.dislikeCount}
 							</button>
 						</div>

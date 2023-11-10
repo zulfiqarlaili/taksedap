@@ -22,10 +22,10 @@
 
 		store.removeReaction
 			? deleteReaction(store.storeId)
-			: addOrUpdateReaction(store.storeId, store.isReacted);
+			: addOrUpdateReaction(store.storeId, store.reaction);
 
 		updateReactionCount(store.storeId, {
-			isReacted: store.isReacted,
+			reaction: store.reaction,
 			removeReaction: store.removeReaction,
 			previousReaction: store.previousReaction
 		});
@@ -50,11 +50,11 @@
 
 <div class="cardList_container">
 	{#if isLoading}
-		<Card isReacted={undefined} {isLoading} />
+		<Card reaction={undefined} {isLoading} />
 		<br />
-		<Card isReacted={undefined} {isLoading} />
+		<Card reaction={undefined} {isLoading} />
 		<br />
-		<Card isReacted={undefined} {isLoading} />
+		<Card reaction={undefined} {isLoading} />
 	{:else}
 		{#if data.stores.length === 0}
 			<h3>No "tak sedap" store nearby</h3>
@@ -62,7 +62,7 @@
 			<small>Don't simply add!</small>
 		{/if}
 		{#each data.stores as store}
-			<Card isReacted={isReaction(store.storeId)} {store} on:cardClicked={handleReactionButton} />
+			<Card reaction={isReaction(store.storeId)} {store} on:cardClicked={handleReactionButton} />
 			<br />
 		{/each}
 	{/if}

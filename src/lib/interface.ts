@@ -5,7 +5,7 @@ export interface IStore {
     url: string;
     likeCount?: number;
     dislikeCount?: number;
-    isReacted?: boolean
+    reaction?: boolean
     removeReaction?: boolean
     previousReaction?: boolean
 }

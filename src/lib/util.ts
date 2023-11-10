@@ -21,7 +21,7 @@ export function isReaction(storeId: string) {
 }
 
 export async function updateReactionCount(storeId: string, extraParam: {
-    isReacted: boolean | undefined,
+    reaction: boolean | undefined,
     removeReaction: boolean | undefined,
     previousReaction: boolean | undefined
 
@@ -30,28 +30,28 @@ export async function updateReactionCount(storeId: string, extraParam: {
     let dislikeCount
 
     const counts = await fetchLikeAndDislikeCounts(storeId)
-    const { isReacted, removeReaction, previousReaction } = extraParam;
+    const { reaction: reaction, removeReaction, previousReaction } = extraParam;
 
-    if (isReacted == true && removeReaction == false) {
+    if (reaction == true && removeReaction == false) {
         if (previousReaction != undefined) {
-            if (isReacted === true && removeReaction === false && previousReaction == false) {
+            if (reaction === true && removeReaction === false && previousReaction == false) {
                 likeCount = counts?.likeCount + 1
                 dislikeCount = counts?.dislikeCount - 1
             }
         }
         likeCount = counts?.likeCount + 1
-    } else if (isReacted == undefined && removeReaction == true) {
+    } else if (reaction == undefined && removeReaction == true) {
         likeCount = counts?.likeCount - 1
-    } else if (isReacted == false && removeReaction == false) {
+    } else if (reaction == false && removeReaction == false) {
         if (previousReaction != undefined) {
-            if (isReacted === false && removeReaction === false && previousReaction == true) {
+            if (reaction === false && removeReaction === false && previousReaction == true) {
                 likeCount = counts?.likeCount - 1
                 dislikeCount = counts?.dislikeCount + 1
             }
         } else {
             dislikeCount = counts?.dislikeCount + 1
         }
-    } else if (isReacted == undefined && removeReaction == false) {
+    } else if (reaction == undefined && removeReaction == false) {
         dislikeCount = counts?.dislikeCount - 1
     }
 
