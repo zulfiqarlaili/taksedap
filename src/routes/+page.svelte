@@ -20,11 +20,10 @@
 	function handleReactionButton(event: any) {
 		const store: IStore = event.detail;
 
-		if (!store.removeReaction) {
-			addOrUpdateReaction(store.storeId, store.isReacted);
-		} else {
-			deleteReaction(store.storeId);
-		}
+		store.removeReaction
+			? deleteReaction(store.storeId)
+			: addOrUpdateReaction(store.storeId, store.isReacted);
+
 		updateReactionCount(store.storeId, {
 			isReacted: store.isReacted,
 			removeReaction: store.removeReaction,

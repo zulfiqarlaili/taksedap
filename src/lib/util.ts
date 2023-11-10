@@ -14,11 +14,6 @@ export function base64ToFileBody(base64String: string) {
     return new File([blob], 'image.jpg', { type: 'image/jpeg' });
 }
 
-function getReactionList() {
-    const reactionList = localStorage.getItem('reactionList');
-    return reactionList ? JSON.parse(reactionList) : [];
-}
-
 export function isReaction(storeId: string) {
     const reactionList = getReactionList();
     const storeData = reactionList.find((item: IReaction) => item.storeId === storeId);
@@ -60,14 +55,10 @@ export async function updateReactionCount(storeId: string, extraParam: {
         dislikeCount = counts?.dislikeCount - 1
     }
 
-    console.log('likeCount', likeCount)
-    console.log('disLikeCount', dislikeCount)
     const updateData = {
         ...(likeCount !== undefined && { likeCount }),
         ...(dislikeCount !== undefined && { dislikeCount })
     }
-    console.log('updateData', updateData)
-    // Update database based on the changes in likeCount and dislikeCount
     const { error } = await supabase
         .from(TABLE_NAME)
         .update(updateData)
@@ -80,26 +71,6 @@ export async function updateReactionCount(storeId: string, extraParam: {
         console.log('Database updated successfully:');
     }
 
-}
-
-async function fetchLikeAndDislikeCounts(storeId: string) {
-    const { data, error } = await supabase
-        .from(TABLE_NAME)
-        .select("*")
-        .eq("storeId", storeId);
-
-    if (error) {
-        console.log(error.message);
-    } else {
-        if (data.length > 0) {
-            return {
-                likeCount: data[0]?.likeCount,
-                dislikeCount: data[0]?.dislikeCount
-            }
-        } else {
-            return undefined
-        }
-    }
 }
 
 export function addOrUpdateReaction(storeId: string, reaction: boolean | undefined) {
@@ -121,3 +92,27 @@ export function deleteReaction(storeId: string) {
     localStorage.setItem('reactionList', JSON.stringify(reactionList));
 }
 
+function getReactionList() {
+    const reactionList = localStorage.getItem('reactionList');
+    return reactionList ? JSON.parse(reactionList) : [];
+}
+
+async function fetchLikeAndDislikeCounts(storeId: string) {
+    const { data, error } = await supabase
+        .from(TABLE_NAME)
+        .select("*")
+        .eq("storeId", storeId);
+
+    if (error) {
+        console.log(error.message);
+    } else {
+        if (data.length > 0) {
+            return {
+                likeCount: data[0]?.likeCount,
+                dislikeCount: data[0]?.dislikeCount
+            }
+        } else {
+            return undefined
+        }
+    }
+}

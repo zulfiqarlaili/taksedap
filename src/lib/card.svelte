@@ -4,12 +4,12 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let store: IStore = {
-		storeId: '', // Empty string
-		storeName: '', // Empty string
-		descriptionList: [], // Empty array
-		url: '', // Empty string
-		likeCount: 0, // Default to 0
-		dislikeCount: 0 // Default to 0
+		storeId: '',
+		storeName: '',
+		descriptionList: [],
+		url: '',
+		likeCount: 0,
+		dislikeCount: 0
 	};
 	export let isLoading = false;
 	export let isReacted: boolean | undefined;
