@@ -20,8 +20,8 @@ export function isReaction(storeId: string) {
     return (storeData === undefined) ? undefined : storeData.reaction
 }
 
-export async function updateReactionCount(storeId: string, extraParam: IExtraParam) {
-    const updateData = await generateReactionCount(storeId, extraParam)
+export async function updateReactionCountDb(storeId: string, extraParam: IExtraParam) {
+    const updateData = await generateReactionCountUpdateData(storeId, extraParam)
     const { error } = await supabase
         .from(TABLE_NAME)
         .update(updateData)
@@ -80,7 +80,7 @@ async function fetchLikeAndDislikeCounts(storeId: string) {
     }
 }
 
-async function generateReactionCount(storeId: string, extraParam: IExtraParam) {
+async function generateReactionCountUpdateData(storeId: string, extraParam: IExtraParam) {
     const counts = await fetchLikeAndDislikeCounts(storeId)
     let likeCount
     let dislikeCount

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Card from '$lib/card.svelte';
 	import type { IStore } from '$lib/interface';
-	import { addOrUpdateReaction, deleteReaction, isReaction, updateReactionCount } from '$lib/util';
+	import { addOrUpdateReaction, deleteReaction, isReaction, updateReactionCountDb } from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
 	export let data: any;
 
@@ -24,7 +24,7 @@
 			? deleteReaction(store.storeId)
 			: addOrUpdateReaction(store.storeId, store.reaction);
 
-		updateReactionCount(store.storeId, {
+		updateReactionCountDb(store.storeId, {
 			reaction: store.reaction,
 			removeReaction: store.removeReaction,
 			previousReaction: store.previousReaction
