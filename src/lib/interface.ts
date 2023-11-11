@@ -13,3 +13,10 @@ export interface IReaction {
     storeId: string;
     reaction: string;
 }
+
+export interface IExtraParam {
+    reaction: boolean | undefined,
+    removeReaction: boolean | undefined,
+    previousReaction: boolean | undefined
+
+}

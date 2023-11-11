@@ -1,5 +1,5 @@
 import { TABLE_NAME } from "./constants";
-import type { IReaction } from "./interface";
+import type { IExtraParam, IReaction } from "./interface";
 import { supabase } from "./supabaseClient";
 
 export function base64ToFileBody(base64String: string) {
@@ -20,45 +20,8 @@ export function isReaction(storeId: string) {
     return (storeData === undefined) ? undefined : storeData.reaction
 }
 
-export async function updateReactionCount(storeId: string, extraParam: {
-    reaction: boolean | undefined,
-    removeReaction: boolean | undefined,
-    previousReaction: boolean | undefined
-
-}) {
-    let likeCount
-    let dislikeCount
-
-    const counts = await fetchLikeAndDislikeCounts(storeId)
-    const { reaction: reaction, removeReaction, previousReaction } = extraParam;
-
-    if (reaction == true && removeReaction == false) {
-        if (previousReaction != undefined) {
-            if (reaction === true && removeReaction === false && previousReaction == false) {
-                likeCount = counts?.likeCount + 1
-                dislikeCount = counts?.dislikeCount - 1
-            }
-        }
-        likeCount = counts?.likeCount + 1
-    } else if (reaction == undefined && removeReaction == true) {
-        likeCount = counts?.likeCount - 1
-    } else if (reaction == false && removeReaction == false) {
-        if (previousReaction != undefined) {
-            if (reaction === false && removeReaction === false && previousReaction == true) {
-                likeCount = counts?.likeCount - 1
-                dislikeCount = counts?.dislikeCount + 1
-            }
-        } else {
-            dislikeCount = counts?.dislikeCount + 1
-        }
-    } else if (reaction == undefined && removeReaction == false) {
-        dislikeCount = counts?.dislikeCount - 1
-    }
-
-    const updateData = {
-        ...(likeCount !== undefined && { likeCount }),
-        ...(dislikeCount !== undefined && { dislikeCount })
-    }
+export async function updateReactionCount(storeId: string, extraParam: IExtraParam) {
+    const updateData = await generateReactionCount(storeId, extraParam)
     const { error } = await supabase
         .from(TABLE_NAME)
         .update(updateData)
@@ -114,5 +77,41 @@ async function fetchLikeAndDislikeCounts(storeId: string) {
         } else {
             return undefined
         }
+    }
+}
+
+async function generateReactionCount(storeId: string, extraParam: IExtraParam) {
+    const counts = await fetchLikeAndDislikeCounts(storeId)
+    let likeCount
+    let dislikeCount
+
+    const { reaction: reaction, removeReaction, previousReaction } = extraParam;
+
+    if (reaction == true && removeReaction == false) {
+        if (previousReaction != undefined) {
+            if (reaction === true && removeReaction === false && previousReaction == false) {
+                likeCount = counts?.likeCount + 1
+                dislikeCount = counts?.dislikeCount - 1
+            }
+        }
+        likeCount = counts?.likeCount + 1
+    } else if (reaction == undefined && removeReaction == true) {
+        likeCount = counts?.likeCount - 1
+    } else if (reaction == false && removeReaction == false) {
+        if (previousReaction != undefined) {
+            if (reaction === false && removeReaction === false && previousReaction == true) {
+                likeCount = counts?.likeCount - 1
+                dislikeCount = counts?.dislikeCount + 1
+            }
+        } else {
+            dislikeCount = counts?.dislikeCount + 1
+        }
+    } else if (reaction == undefined && removeReaction == false) {
+        dislikeCount = counts?.dislikeCount - 1
+    }
+
+    return {
+        ...(likeCount !== undefined && { likeCount }),
+        ...(dislikeCount !== undefined && { dislikeCount })
     }
 }
