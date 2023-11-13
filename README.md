@@ -18,6 +18,16 @@ npm install
 
 ```
 
+## Setup
+You need to add `.env` file to get all the necessary before running the app. You can get this from [supabase](https://supabase.com/) when you create a project
+``` 
+PUBLIC_TABLE_NAME = ''
+PUBLIC_BUCKET_NAME = ''
+PUBLIC_SUPABASE_STORE_URL = ''
+PUBLIC_SUPABASE_PROJECT_URL  = ''
+PUBLIC_ANON_KEY = ''
+```
+
 ## Developing
 
 Start a development server:
@@ -49,8 +59,8 @@ You can preview the production build with `npm run preview`.
 - [x] Upload image
 - [x] Display list of store
 - [x] Display description
-- [ ] User identifier
-- [ ] Like and dislike function
+- [x] User identifier
+- [x] Like and dislike function
 - [ ] Implementing geofencing
 
 ## Contribution
