@@ -7,8 +7,8 @@ export interface IStore {
     dislikeCount?: number;
     reaction?: boolean
     removeReaction?: boolean
+    isReactionSwitch?: boolean
     previousReaction?: boolean
-    previousReaction2?: boolean
 }
 export interface IReaction {
     storeId: string;
@@ -18,6 +18,6 @@ export interface IReaction {
 export interface IExtraParam {
     reaction: boolean | undefined,
     removeReaction: boolean | undefined,
-    previousReaction: boolean | undefined,
-    previousReaction2?: boolean
+    isReactionSwitch: boolean | undefined,
+    previousReaction?: boolean
 }

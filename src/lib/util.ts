@@ -83,12 +83,12 @@ async function generateReactionCountUpdateData(storeId: string, extraParam: IExt
     let likeCount
     let dislikeCount
 
-    const { reaction: reaction, removeReaction, previousReaction, previousReaction2 } = extraParam;
+    const { reaction: reaction, removeReaction, isReactionSwitch, previousReaction } = extraParam;
     console.log('input',extraParam)
 
     if (reaction == true && removeReaction == false) {
-        if (previousReaction != undefined) {
-            if (reaction === true && removeReaction === false && previousReaction == false) {
+        if (isReactionSwitch != undefined) {
+            if (reaction === true && removeReaction === false && isReactionSwitch == false) {
                 likeCount = counts?.likeCount + 1
                 dislikeCount = counts?.dislikeCount - 1
             }
@@ -96,15 +96,15 @@ async function generateReactionCountUpdateData(storeId: string, extraParam: IExt
             likeCount = counts?.likeCount + 1
         }
     } else if (reaction == undefined && removeReaction == true) {
-        if(previousReaction2){
+        if(previousReaction){
             likeCount = counts?.likeCount - 1
         }else{
             dislikeCount = counts?.dislikeCount - 1
         }
 
     } else if (reaction == false && removeReaction == false) {
-        if (previousReaction != undefined) {
-            if (reaction === false && removeReaction === false && previousReaction == true) {
+        if (isReactionSwitch != undefined) {
+            if (reaction === false && removeReaction === false && isReactionSwitch == true) {
                 likeCount = counts?.likeCount - 1
                 dislikeCount = counts?.dislikeCount + 1
             }

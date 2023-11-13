@@ -49,8 +49,8 @@
 		updateReactionCountDb(store.storeId, {
 			reaction: store.reaction,
 			removeReaction: store.removeReaction,
-			previousReaction: store.previousReaction,
-			previousReaction2: store.previousReaction2
+			isReactionSwitch: store.isReactionSwitch,
+			previousReaction: store.previousReaction
 		});
 	}
 

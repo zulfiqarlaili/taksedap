@@ -58,8 +58,8 @@
 			...store,
 			reaction: reaction,
 			removeReaction,
-			previousReaction: isSwitchReaction,
-			previousReaction2: test, 
+			isReactionSwitch: isSwitchReaction,
+			previousReaction: test, 
 		});
 	}
 </script>
