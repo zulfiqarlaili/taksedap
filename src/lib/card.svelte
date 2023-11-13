@@ -33,12 +33,21 @@
 	}
 
 	function handleReactionButton(input: boolean | undefined) {
+		// console.log('reaction',reaction)
+		// console.log('input',input)
 		let isSwitchReaction =
 			reaction === true && input === false
 				? true
 				: reaction === false && input === true
 				? false
 				: undefined;
+		let test =
+			reaction === true && input === true
+				? true
+				: reaction === false && input === false
+				? false
+				: undefined;
+		
 
 		handleReaction(input);
 		let removeReaction = false;
@@ -49,7 +58,8 @@
 			...store,
 			reaction: reaction,
 			removeReaction,
-			previousReaction: isSwitchReaction
+			previousReaction: isSwitchReaction,
+			previousReaction2: test, 
 		});
 	}
 </script>

@@ -30,8 +30,6 @@ export async function updateReactionCountDb(storeId: string, extraParam: IExtraP
 
     if (error) {
         console.error('Error updating database:', error.message);
-    } else {
-        console.log('Database updated successfully:');
     }
 
 }
@@ -85,7 +83,8 @@ async function generateReactionCountUpdateData(storeId: string, extraParam: IExt
     let likeCount
     let dislikeCount
 
-    const { reaction: reaction, removeReaction, previousReaction } = extraParam;
+    const { reaction: reaction, removeReaction, previousReaction, previousReaction2 } = extraParam;
+    console.log('input',extraParam)
 
     if (reaction == true && removeReaction == false) {
         if (previousReaction != undefined) {
@@ -93,10 +92,16 @@ async function generateReactionCountUpdateData(storeId: string, extraParam: IExt
                 likeCount = counts?.likeCount + 1
                 dislikeCount = counts?.dislikeCount - 1
             }
+        }else{
+            likeCount = counts?.likeCount + 1
         }
-        likeCount = counts?.likeCount + 1
     } else if (reaction == undefined && removeReaction == true) {
-        likeCount = counts?.likeCount - 1
+        if(previousReaction2){
+            likeCount = counts?.likeCount - 1
+        }else{
+            dislikeCount = counts?.dislikeCount - 1
+        }
+
     } else if (reaction == false && removeReaction == false) {
         if (previousReaction != undefined) {
             if (reaction === false && removeReaction === false && previousReaction == true) {
@@ -106,9 +111,12 @@ async function generateReactionCountUpdateData(storeId: string, extraParam: IExt
         } else {
             dislikeCount = counts?.dislikeCount + 1
         }
-    } else if (reaction == undefined && removeReaction == false) {
-        dislikeCount = counts?.dislikeCount - 1
-    }
+    } 
+    
+    // console.log('result',{
+    //     ...(likeCount !== undefined && { likeCount }),
+    //     ...(dislikeCount !== undefined && { dislikeCount })
+    // })
 
     return {
         ...(likeCount !== undefined && { likeCount }),

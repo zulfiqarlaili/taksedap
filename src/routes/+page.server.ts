@@ -5,7 +5,6 @@ import { error } from '@sveltejs/kit';
 
 export async function load() {
 	const response = await fetchStore();
-	console.log(response)
 	return {
 		stores: response
 	};

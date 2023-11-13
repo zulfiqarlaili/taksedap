@@ -8,6 +8,7 @@ export interface IStore {
     reaction?: boolean
     removeReaction?: boolean
     previousReaction?: boolean
+    previousReaction2?: boolean
 }
 export interface IReaction {
     storeId: string;
@@ -17,6 +18,6 @@ export interface IReaction {
 export interface IExtraParam {
     reaction: boolean | undefined,
     removeReaction: boolean | undefined,
-    previousReaction: boolean | undefined
-
+    previousReaction: boolean | undefined,
+    previousReaction2?: boolean
 }

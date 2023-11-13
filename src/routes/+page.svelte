@@ -1,13 +1,35 @@
 <script lang="ts">
 	import Card from '$lib/card.svelte';
+	import { TABLE_NAME } from '$lib/constants';
 	import type { IStore } from '$lib/interface';
-	import { addOrUpdateReaction, deleteReaction, isReaction, updateReactionCountDb } from '$lib/util';
+	import { supabase } from '$lib/supabaseClient';
+	import {
+		addOrUpdateReaction,
+		deleteReaction,
+		isReaction,
+		updateReactionCountDb
+	} from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
 	export let data: any;
 
 	let isVisible = true;
 	let scrollTimeout: any;
 	let isLoading = true;
+
+	const changes = supabase
+		.channel(TABLE_NAME)
+		.on(
+			'postgres_changes',
+			{
+				event: 'UPDATE',
+				schema: 'public'
+			},
+			(payload) => {
+				const updatedStore = payload.new as IStore
+				data.stores = data.stores.map((store: IStore) => (store.storeId === updatedStore.storeId ? updatedStore : store));
+			}
+		)
+		.subscribe();
 
 	function handleScroll() {
 		isVisible = false;
@@ -27,7 +49,8 @@
 		updateReactionCountDb(store.storeId, {
 			reaction: store.reaction,
 			removeReaction: store.removeReaction,
-			previousReaction: store.previousReaction
+			previousReaction: store.previousReaction,
+			previousReaction2: store.previousReaction2
 		});
 	}
 
@@ -62,7 +85,7 @@
 			<small>Don't simply add!</small>
 		{/if}
 		{#each data.stores as store}
-			<Card reaction={isReaction(store.storeId)} {store} on:cardClicked={handleReactionButton} />
+			<Card reaction={isReaction(store.storeId)} bind:store on:cardClicked={handleReactionButton} />
 			<br />
 		{/each}
 	{/if}
