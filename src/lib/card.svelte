@@ -35,13 +35,13 @@
 	function handleReactionButton(input: boolean | undefined) {
 		// console.log('reaction',reaction)
 		// console.log('input',input)
-		let isSwitchReaction =
+		let isReactionSwitch =
 			reaction === true && input === false
 				? true
 				: reaction === false && input === true
 				? false
 				: undefined;
-		let test =
+		let previousReaction =
 			reaction === true && input === true
 				? true
 				: reaction === false && input === false
@@ -56,10 +56,10 @@
 		}
 		dispatch('cardClicked', {
 			...store,
-			reaction: reaction,
+			reaction,
 			removeReaction,
-			isReactionSwitch: isSwitchReaction,
-			previousReaction: test, 
+			isReactionSwitch,
+			previousReaction, 
 		});
 	}
 </script>
