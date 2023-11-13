@@ -1,4 +1,4 @@
+import { PUBLIC_ANON_KEY, PUBLIC_SUPABASE_PROJECT_URL } from '$env/static/public'
 import { createClient } from '@supabase/supabase-js'
-import { ANON_KEY, SUPABASE_PROJECT_URL } from './constants'
 
-export const supabase = createClient(SUPABASE_PROJECT_URL, ANON_KEY)
+export const supabase = createClient(PUBLIC_SUPABASE_PROJECT_URL, PUBLIC_ANON_KEY)

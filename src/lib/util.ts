@@ -1,4 +1,4 @@
-import { TABLE_NAME } from "./constants";
+import { PUBLIC_TABLE_NAME } from "$env/static/public";
 import type { IExtraParam, IReaction } from "./interface";
 import { supabase } from "./supabaseClient";
 
@@ -23,7 +23,7 @@ export function isReaction(storeId: string) {
 export async function updateReactionCountDb(storeId: string, extraParam: IExtraParam) {
     const updateData = await generateReactionCountUpdateData(storeId, extraParam)
     const { error } = await supabase
-        .from(TABLE_NAME)
+        .from(PUBLIC_TABLE_NAME)
         .update(updateData)
         .eq('storeId', storeId)
         .select();
@@ -60,7 +60,7 @@ function getReactionList() {
 
 async function fetchLikeAndDislikeCounts(storeId: string) {
     const { data, error } = await supabase
-        .from(TABLE_NAME)
+        .from(PUBLIC_TABLE_NAME)
         .select("*")
         .eq("storeId", storeId);
 

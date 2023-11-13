@@ -1,5 +1,5 @@
+import { PUBLIC_TABLE_NAME } from '$env/static/public';
 import { supabase } from '$lib/supabaseClient'
-import { TABLE_NAME } from '$lib/constants'
 import { error } from '@sveltejs/kit';
 
 
@@ -12,7 +12,7 @@ export async function load() {
 
 async function fetchStore() {
 	const { data: stores, error: errorMessage } = await supabase
-		.from(TABLE_NAME)
+		.from(PUBLIC_TABLE_NAME)
 		.select('*')
 	if (errorMessage) {
 		throw error(500, {

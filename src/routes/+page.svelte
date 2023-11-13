@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { PUBLIC_TABLE_NAME } from '$env/static/public';
 	import Card from '$lib/card.svelte';
-	import { TABLE_NAME } from '$lib/constants';
 	import type { IStore } from '$lib/interface';
 	import { supabase } from '$lib/supabaseClient';
 	import {
@@ -17,7 +17,7 @@
 	let isLoading = true;
 
 	const changes = supabase
-		.channel(TABLE_NAME)
+		.channel(PUBLIC_TABLE_NAME)
 		.on(
 			'postgres_changes',
 			{

@@ -5,7 +5,7 @@
 	import { base64ToFileBody } from '$lib/util';
 	import { v4 as uuidv4 } from 'uuid';
 	import { goto } from '$app/navigation';
-	import { TABLE_NAME, BUCKET_NAME, SUPABASE_STORE_URL } from '$lib/constants';
+	import { PUBLIC_BUCKET_NAME, PUBLIC_SUPABASE_STORE_URL, PUBLIC_TABLE_NAME } from '$env/static/public';
 
 	let imageURL: string | null = null;
 	let imageBase64: string;
@@ -80,7 +80,7 @@
 
 		isLoading = true;
 		const { data, error } = await supabase.storage
-			.from(BUCKET_NAME)
+			.from(PUBLIC_BUCKET_NAME)
 			.upload(filePath, base64ToFileBody(imageBase64));
 
 		if (error) {
@@ -103,11 +103,11 @@
 					storeId,
 					storeName,
 					descriptionList: descriptionList.filter((item) => item !== ''),
-					url: SUPABASE_STORE_URL + storeId,
+					url: PUBLIC_SUPABASE_STORE_URL + storeId,
 					location: `POINT(${latitude} ${longitude})`
 				};
 				isLoading = true;
-				const { data, error } = await supabase.from(TABLE_NAME).insert(insertData);
+				const { data, error } = await supabase.from(PUBLIC_TABLE_NAME).insert(insertData);
 				if (error) {
 					isLoading = false;
 					alert(error.message);
