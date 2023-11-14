@@ -63,7 +63,8 @@
 			isLoading = false;
 		}
 	});
-
+	
+	console.log('data',data)
 	onDestroy(() => {
 		if (typeof window !== 'undefined') {
 			window.removeEventListener('scroll', handleScroll);

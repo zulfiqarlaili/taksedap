@@ -104,7 +104,7 @@
 					storeName,
 					descriptionList: descriptionList.filter((item) => item !== ''),
 					url: PUBLIC_SUPABASE_STORE_URL + storeId,
-					location: `POINT(${latitude} ${longitude})`
+					location: `POINT(${longitude} ${latitude})`
 				};
 				isLoading = true;
 				const { data, error } = await supabase.from(PUBLIC_TABLE_NAME).insert(insertData);
