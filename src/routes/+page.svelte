@@ -7,16 +7,17 @@
 		addOrUpdateReaction,
 		deleteReaction,
 		isReaction,
+		runGeoQuery,
 		updateReactionCountDb
 	} from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
-	export let data: any;
+	let data: any = [];
 
 	let isVisible = true;
 	let scrollTimeout: any;
 	let isLoading = true;
 
-	const changes = supabase
+	supabase
 		.channel(PUBLIC_TABLE_NAME)
 		.on(
 			'postgres_changes',
@@ -25,12 +26,36 @@
 				schema: 'public'
 			},
 			(payload) => {
-				const updatedStore = payload.new as IStore
-				data.stores = data.stores.map((store: IStore) => (store.storeId === updatedStore.storeId ? updatedStore : store));
+				const updatedStore = payload.new as IStore;
+				data = data.map((store: IStore) =>
+					store.storeId === updatedStore.storeId ? updatedStore : store
+				);
 			}
 		)
 		.subscribe();
 
+	const getLocation = () => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				async (position) => {
+					const latitude = position.coords.latitude;
+					const longitude = position.coords.longitude;
+					try {
+						data = await runGeoQuery(latitude, longitude);
+						isLoading = false;
+					} catch (error) {
+						isLoading = false;
+						alert(error)
+					}
+				},
+				(err) => {
+					alert(err.message);
+				}
+			);
+		} else {
+			alert('Geolocation is not supported by this browser.');
+		}
+	};
 	function handleScroll() {
 		isVisible = false;
 		clearTimeout(scrollTimeout);
@@ -54,17 +79,14 @@
 		});
 	}
 
-	onMount(() => {
+	onMount(async () => {
+		getLocation();
+
 		if (typeof window !== 'undefined') {
 			window.addEventListener('scroll', handleScroll);
 		}
 
-		if (data) {
-			isLoading = false;
-		}
 	});
-	
-	console.log('data',data)
 	onDestroy(() => {
 		if (typeof window !== 'undefined') {
 			window.removeEventListener('scroll', handleScroll);
@@ -80,12 +102,12 @@
 		<br />
 		<Card reaction={undefined} {isLoading} />
 	{:else}
-		{#if data.stores.length === 0}
+		{#if data.length === 0}
 			<h3>No "tak sedap" store nearby</h3>
 			<small>Press + button to add new store</small>
 			<small>Don't simply add!</small>
 		{/if}
-		{#each data.stores as store}
+		{#each data as store}
 			<Card reaction={isReaction(store.storeId)} bind:store on:cardClicked={handleReactionButton} />
 			<br />
 		{/each}

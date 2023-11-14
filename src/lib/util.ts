@@ -1,6 +1,22 @@
 import { PUBLIC_TABLE_NAME } from "$env/static/public";
+import { error } from "@sveltejs/kit";
 import type { IExtraParam, IReaction } from "./interface";
 import { supabase } from "./supabaseClient";
+
+export async function runGeoQuery(lat:number,long:number) {
+	const { data, error: errorMessage } = await supabase.rpc('get_nearby_stores', {
+		lat: lat,
+		long: long,
+	})
+
+	if (errorMessage) {
+		throw error(500, {
+			message: errorMessage.message
+		});
+	} else {
+		return data
+	}
+}
 
 export function base64ToFileBody(base64String: string) {
     const byteCharacters = atob(base64String.split(';base64,')[1]);

@@ -92,7 +92,7 @@
 									handleReactionButton(false);
 								}}
 							>
-								<i class={`fa-solid fa-thumbs-up ${reaction === false ? 'reacted-false' : ''}`} />
+								<i class={`fa-solid fa-thumbs-down ${reaction === false ? 'reacted-false' : ''}`} />
 								{store.dislikeCount}
 							</button>
 						</div>
