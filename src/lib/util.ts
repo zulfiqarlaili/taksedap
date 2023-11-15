@@ -3,7 +3,7 @@ import { error } from "@sveltejs/kit";
 import type { IExtraParam, IReaction } from "./interface";
 import { supabase } from "./supabaseClient";
 
-export async function runGeoQuery(lat:number,long:number) {
+export async function getNearbyStore(lat:number,long:number) {
 	const { data, error: errorMessage } = await supabase.rpc('get_nearby_stores', {
 		lat: lat,
 		long: long,

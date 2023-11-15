@@ -6,8 +6,8 @@
 	import {
 		addOrUpdateReaction,
 		deleteReaction,
+		getNearbyStore,
 		isReaction,
-		runGeoQuery,
 		updateReactionCountDb
 	} from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
@@ -16,6 +16,7 @@
 	let isVisible = true;
 	let scrollTimeout: any;
 	let isLoading = true;
+	const nearbyRadiusInMeter:number = 1000;
 
 	supabase
 		.channel(PUBLIC_TABLE_NAME)
@@ -41,7 +42,8 @@
 					const latitude = position.coords.latitude;
 					const longitude = position.coords.longitude;
 					try {
-						data = await runGeoQuery(latitude, longitude);
+						data = await getNearbyStore(latitude, longitude);
+						data = data.filter((item: any) => item.distMeters <= nearbyRadiusInMeter);
 						isLoading = false;
 					} catch (error) {
 						isLoading = false;
