@@ -16,7 +16,7 @@
 	let isVisible = true;
 	let scrollTimeout: any;
 	let isLoading = true;
-	const nearbyRadiusInMeter:number = 1000;
+	const nearbyRadiusInMeter: number = 4000;
 
 	supabase
 		.channel(PUBLIC_TABLE_NAME)
@@ -43,11 +43,13 @@
 					const longitude = position.coords.longitude;
 					try {
 						data = await getNearbyStore(latitude, longitude);
-						data = data.filter((item: any) => item.distMeters <= nearbyRadiusInMeter);
+						data = data.filter(
+							(store: { distMeters: number }) => store.distMeters <= nearbyRadiusInMeter
+						);
 						isLoading = false;
 					} catch (error) {
 						isLoading = false;
-						alert(error)
+						alert(error);
 					}
 				},
 				(err) => {
@@ -87,7 +89,6 @@
 		if (typeof window !== 'undefined') {
 			window.addEventListener('scroll', handleScroll);
 		}
-
 	});
 	onDestroy(() => {
 		if (typeof window !== 'undefined') {

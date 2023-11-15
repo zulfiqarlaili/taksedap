@@ -5,7 +5,11 @@
 	import { base64ToFileBody } from '$lib/util';
 	import { v4 as uuidv4 } from 'uuid';
 	import { goto } from '$app/navigation';
-	import { PUBLIC_BUCKET_NAME, PUBLIC_SUPABASE_STORE_URL, PUBLIC_TABLE_NAME } from '$env/static/public';
+	import {
+		PUBLIC_BUCKET_NAME,
+		PUBLIC_SUPABASE_STORE_URL,
+		PUBLIC_TABLE_NAME
+	} from '$env/static/public';
 
 	let imageURL: string | null = null;
 	let imageBase64: string;

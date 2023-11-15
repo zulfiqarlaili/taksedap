@@ -47,7 +47,6 @@
 				: reaction === false && input === false
 				? false
 				: undefined;
-		
 
 		handleReaction(input);
 		let removeReaction = false;
@@ -59,7 +58,7 @@
 			reaction,
 			removeReaction,
 			isReactionSwitch,
-			previousReaction, 
+			previousReaction
 		});
 	}
 </script>
