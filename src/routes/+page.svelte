@@ -162,5 +162,6 @@
 		flex-direction: column;
 		align-items: center;
 		border-radius: 1rem;
+		text-align: center;
 	}
 </style>
