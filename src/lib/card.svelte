@@ -33,8 +33,6 @@
 	}
 
 	function handleReactionButton(input: boolean | undefined) {
-		// console.log('reaction',reaction)
-		// console.log('input',input)
 		let isReactionSwitch =
 			reaction === true && input === false
 				? true
@@ -66,9 +64,6 @@
 <div class="container">
 	{#if isLoading}
 		<article class="skeleton-loading">
-			<div class="skeleton-title">
-				<div class="skeleton-title-inner" />
-			</div>
 		</article>
 	{:else}
 		<details>
@@ -193,6 +188,7 @@
 		);
 		background-size: 200% 100%;
 		animation: shimmer 1.5s infinite;
+		border-radius: 1rem;
 	}
 
 	.skeleton-title {
