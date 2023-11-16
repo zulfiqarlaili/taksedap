@@ -12,4 +12,10 @@
 	a:hover {
 		text-decoration: none;
 	}
+	small{
+		position: absolute;
+		top: 0;
+		right: 1rem;
+		opacity: 40%;
+	}
 </style>
