@@ -1,4 +1,5 @@
 <a href="/"><h1>Tak Sedap</h1></a>
+<small>beta-release</small>
 <slot />
 
 <style>

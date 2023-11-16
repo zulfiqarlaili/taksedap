@@ -90,6 +90,7 @@
 			window.addEventListener('scroll', handleScroll);
 		}
 	});
+
 	onDestroy(() => {
 		if (typeof window !== 'undefined') {
 			window.removeEventListener('scroll', handleScroll);
@@ -106,9 +107,11 @@
 		<Card reaction={undefined} {isLoading} />
 	{:else}
 		{#if data.length === 0}
+		<article>
 			<h3>No "tak sedap" store nearby</h3>
 			<small>Press + button to add new store</small>
 			<small>Don't simply add!</small>
+		</article>
 		{/if}
 		{#each data as store}
 			<Card reaction={isReaction(store.storeId)} bind:store on:cardClicked={handleReactionButton} />
@@ -152,5 +155,12 @@
 
 	a.circle-button:hover {
 		transform: scale(1.1);
+	}
+
+	article {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		border-radius: 1rem;
 	}
 </style>
