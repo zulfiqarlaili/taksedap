@@ -1,4 +1,4 @@
-> this is on-going project and its still on development phase
+> beta-release: [taksedap](https://taksedap.vercel.app)
 
 # Tak Sedap
 
