@@ -11,11 +11,13 @@
 		updateReactionCountDb
 	} from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
+	import Tutorial from './tutorial.svelte';
 	let data: any = [];
 
 	let isVisible = true;
 	let scrollTimeout: any;
 	let isLoading = true;
+	let isTutorial = false;
 	const nearbyRadiusInMeter: number = 4000;
 
 	supabase
@@ -84,6 +86,10 @@
 	}
 
 	onMount(async () => {
+		if (!localStorage.getItem('isTutorial')) {
+			isTutorial = true;
+		}
+
 		getLocation();
 
 		if (typeof window !== 'undefined') {
@@ -99,6 +105,7 @@
 </script>
 
 <div class="cardList_container">
+	<Tutorial isOpen={isTutorial} />
 	{#if isLoading}
 		<Card reaction={undefined} {isLoading} />
 		<br />
@@ -107,11 +114,11 @@
 		<Card reaction={undefined} {isLoading} />
 	{:else}
 		{#if data.length === 0}
-		<article>
-			<h3>No "tak sedap" store nearby</h3>
-			<small>Press + button to add new store</small>
-			<small>Don't simply add!</small>
-		</article>
+			<article>
+				<h3>No "tak sedap" store nearby</h3>
+				<small>Press + button to add new store</small>
+				<small>Don't simply add!</small>
+			</article>
 		{/if}
 		{#each data as store}
 			<Card reaction={isReaction(store.storeId)} bind:store on:cardClicked={handleReactionButton} />
