@@ -4,8 +4,10 @@ let options = {
 	threshold: 0
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const lazyLoad = (image, src) => {
-	const placeholderSrc = 'https://placehold.co/600x400'; // Replace 'placeholder.jpg' with your placeholder image URL
+	const placeholderSrc = 'https://placehold.co/600x400'; 
 
 	const loaded = () => {
 		image.classList.add('visible');
