@@ -64,6 +64,7 @@ You can preview the production build with `npm run preview`.
 - [x] User identifier
 - [x] Like and dislike function
 - [x] Implementing geofencing
+- [x] Feedback submission
 
 ## Contribution
 
