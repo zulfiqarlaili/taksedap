@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_TABLE_NAME } from '$env/static/public';
-	import Card from './Card.svelte';
+	import Card from '$lib/Card.svelte';
 	import type { IStore } from '$lib/interface';
 	import { supabase } from '$lib/supabaseClient';
 	import {
