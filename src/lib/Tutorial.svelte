@@ -72,7 +72,7 @@
 				{#if currentStep === 3}
 					Be a food <strong>hero</strong>! <br /> Help people discover the
 					<strong>"tak sedap"</strong>
-					spots, so they can avoid <strong>flavor disasters</strong>.
+					spots, so they can avoid flavor disasters.
 				{/if}
 			</p>
 

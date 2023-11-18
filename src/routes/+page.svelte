@@ -12,6 +12,7 @@
 	} from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
 	import Tutorial from '../lib/Tutorial.svelte';
+	import Feedback from '$lib/Feedback.svelte';
 	let data: any = [];
 
 	let isVisible = true;
@@ -44,7 +45,7 @@
 					const latitude = position.coords.latitude;
 					const longitude = position.coords.longitude;
 					try {
-						data = await getNearbyStore(latitude, longitude);
+						// data = await getNearbyStore(latitude, longitude);
 						data = data.filter(
 							(store: { distMeters: number }) => store.distMeters <= nearbyRadiusInMeter
 						);
@@ -89,6 +90,16 @@
 		if (!localStorage.getItem('isTutorial')) {
 			isTutorial = true;
 		}
+		
+		// TODO: Will implement when needed
+		// let visit = localStorage.getItem('visit');
+		// if (!visit) {
+		// 	localStorage.setItem('visit', '1');
+		// } else {
+		// 	let count = parseInt(visit);
+		// 	count++;
+		// 	localStorage.setItem('visit', count.toString());
+		// }
 
 		getLocation();
 
@@ -106,6 +117,7 @@
 
 <div class="cardList_container">
 	<Tutorial isOpen={isTutorial} />
+	<Feedback />
 	{#if isLoading}
 		<Card reaction={undefined} {isLoading} />
 		<br />
