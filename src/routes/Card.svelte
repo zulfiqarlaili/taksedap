@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IStore } from './interface.js';
+	import type { IStore } from '../lib/interface.js';
 	import { createEventDispatcher } from 'svelte';
 	import { lazyLoad } from '$lib/lazyLoad.js';
 
