@@ -45,7 +45,7 @@
 					const latitude = position.coords.latitude;
 					const longitude = position.coords.longitude;
 					try {
-						// data = await getNearbyStore(latitude, longitude);
+						data = await getNearbyStore(latitude, longitude);
 						data = data.filter(
 							(store: { distMeters: number }) => store.distMeters <= nearbyRadiusInMeter
 						);
