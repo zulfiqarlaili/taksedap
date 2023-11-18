@@ -4,13 +4,12 @@
 	export let isOpen = true;
 
 	function handleSwipe(event: TouchEvent) {
-		let { clientX: startX, clientY: startY } = event.touches[0];
+		let { clientX: startX } = event.touches[0];
 		let moved: boolean = false;
 
 		function handleMove(moveEvent: TouchEvent) {
-			const { clientX, clientY } = moveEvent.touches[0];
+			const { clientX } = moveEvent.touches[0];
 			const deltaX = clientX - startX;
-			const deltaY = clientY - startY;
 
 			if (Math.abs(deltaX) > 50) {
 				moved = true;
@@ -30,9 +29,6 @@
 		function handleEnd() {
 			window.removeEventListener('touchmove', handleMove);
 			window.removeEventListener('touchend', handleEnd);
-			if (moved) {
-				// Additional logic after swipe if needed
-			}
 		}
 
 		window.addEventListener('touchmove', handleMove);
@@ -68,10 +64,10 @@
 			{/if}
 			<p>
 				{#if currentStep === 1}
-					Spot a store that totally <strong>not worth it</strong>!
+					Spot a store that totally <br> <strong>not worth it</strong>!
 				{/if}
 				{#if currentStep === 2}
-					Contribute! Click +, snap a photo, and share what's <strong>wrong</strong> with the store.
+					Contribute! <br>Click +, snap a photo, and share what's <strong>wrong</strong> with the store.
 				{/if}
 				{#if currentStep === 3}
 					Be a food <strong>hero</strong>! <br /> Help people discover the

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_TABLE_NAME } from '$env/static/public';
-	import Card from '$lib/card.svelte';
+	import Card from '$lib/Card.svelte';
 	import type { IStore } from '$lib/interface';
 	import { supabase } from '$lib/supabaseClient';
 	import {
@@ -11,7 +11,7 @@
 		updateReactionCountDb
 	} from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
-	import Tutorial from './tutorial.svelte';
+	import Tutorial from '../lib/Tutorial.svelte';
 	let data: any = [];
 
 	let isVisible = true;
