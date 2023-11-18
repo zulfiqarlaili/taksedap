@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_TABLE_NAME_FEEDBACK } from '$env/static/public';
 	import { supabase } from './supabaseClient';
 
 	let feedbackText: string = '';
@@ -8,7 +9,7 @@
 	async function handleButtonClick(): Promise<void> {
 		if (feedbackText.length > 3) {
 			const { data, error } = await supabase
-				.from('feedback')
+				.from(PUBLIC_TABLE_NAME_FEEDBACK)
 				.insert([{ feedback: feedbackText }])
 				.select();
 
@@ -49,6 +50,7 @@
 				placeholder="We're not mind readers, so spill the tea! Your thoughts are like VIP access – we need 'em..."
 				aria-label="Professional short bio"
 				on:input={handleTextAreaInput}
+				aria-invalid={isButtonDisabled}
 			/>
 			<button on:click={handleButtonClick} disabled={isButtonDisabled}> Spill the Tea </button>
 		</article>
