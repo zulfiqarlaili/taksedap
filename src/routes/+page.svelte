@@ -11,8 +11,7 @@
 		updateReactionCountDb
 	} from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
-	import Tutorial from '../lib/Tutorial.svelte';
-	import Feedback from '$lib/Feedback.svelte';
+	import Tutorial from '$lib/Tutorial.svelte';
 	let data: any = [];
 
 	let isVisible = true;
@@ -117,7 +116,6 @@
 
 <div class="cardList_container">
 	<Tutorial isOpen={isTutorial} />
-	<Feedback />
 	{#if isLoading}
 		<Card reaction={undefined} {isLoading} />
 		<br />
