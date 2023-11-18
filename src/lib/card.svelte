@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { IStore } from './interface.js';
-	import { lazyLoad } from './lazyLoad.js';
 	import { createEventDispatcher } from 'svelte';
+	import { lazyLoad } from '$lib/lazyLoad.js';
 
 	export let store: IStore = {
 		storeId: '',

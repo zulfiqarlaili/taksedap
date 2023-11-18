@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_TABLE_NAME_FEEDBACK } from '$env/static/public';
-	import { supabase } from './supabaseClient';
+	import { supabase } from '$lib/supabaseClient';
 
 	let feedbackText: string = '';
 	let isButtonDisabled: boolean = true;
