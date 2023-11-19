@@ -67,4 +67,7 @@
 	button {
 		width: 100%;
 	}
+	textarea {
+		min-height: 10rem;
+	}
 </style>
