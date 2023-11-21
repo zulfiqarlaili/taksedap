@@ -12,6 +12,16 @@
 	} from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
 	import Tutorial from '$lib/Tutorial.svelte';
+
+	const example: IStore = {
+		storeId: '7c19ee18-9dbf-4452-aa08-5119b3284756',
+		storeName: 'Bakso stall (example)',
+		descriptionList: ['Expensive (example)', 'tasteless (example)'],
+		url: 'https://gxqszfrqmsnuzuetyjgz.supabase.co/storage/v1/object/public/storeImage/7c19ee18-9dbf-4452-aa08-5119b3284756',
+		likeCount: 0,
+		dislikeCount: 0,
+	};
+
 	let data: any = [];
 
 	let isVisible = true;
@@ -48,6 +58,10 @@
 						data = data.filter(
 							(store: { distMeters: number }) => store.distMeters <= nearbyRadiusInMeter
 						);
+						if (data.length === 0 && isTutorial){
+							data.push(example)
+						}
+
 						isLoading = false;
 					} catch (error) {
 						isLoading = false;
@@ -56,10 +70,12 @@
 				},
 				(err) => {
 					alert(err.message);
+					isLoading = false;
 				}
-			);
-		} else {
-			alert('Geolocation is not supported by this browser.');
+				);
+			} else {
+				alert('Geolocation is not supported by this browser.');
+				isLoading = false;
 		}
 	};
 	function handleScroll() {
@@ -89,7 +105,7 @@
 		if (!localStorage.getItem('isTutorial')) {
 			isTutorial = true;
 		}
-		
+
 		// TODO: Will implement when needed
 		// let visit = localStorage.getItem('visit');
 		// if (!visit) {
