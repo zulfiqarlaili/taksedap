@@ -5,28 +5,20 @@
 
 	inject({ mode: dev ? 'development' : 'production' });
 
-	let showFeedbackDialog = false;
-
-	function handleButton() {
-		showFeedbackDialog = true;
-	}
-	onMount(() => {
+	function handleChatPopup() {
 		const typebotInitScript = document.createElement('script');
 		typebotInitScript.type = 'module';
-		typebotInitScript.innerHTML = 
-		`import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.2.25/dist/web.js'
-
-		Typebot.initBubble({
-  		typebot: "tak-sedap",
-  		apiHost: "https://bot.07102020.xyz",
-  		theme: {
-    		placement: "left",
-    		button: { backgroundColor: "#5380e9" },
-    		previewMessage: { backgroundColor: "#c7c7c7" },
-  		},
-		});
-		`;
+		typebotInitScript.innerHTML = `import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.2.25/dist/web.js'
+	
+	Typebot.initPopup({
+	typebot: "tak-sedap",
+	apiHost: "https://bot.07102020.xyz",
+	autoShowDelay: 0,
+	});
+	`;
 		document.body.append(typebotInitScript);
+	}
+	onMount(() => {
 	});
 </script>
 
@@ -34,9 +26,8 @@
 	<a href="/"><h1>Tak Sedap</h1></a>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<!-- <i on:click={handleButton} class="scale-element feedback fa-regular fa-comment" /> -->
+	<i on:click={handleChatPopup} class="scale-element feedback fa-regular fa-comment" />
 </div>
-<!-- <Feedback bind:isOpen={showFeedbackDialog} /> -->
 <small>beta-release</small>
 <slot />
 
