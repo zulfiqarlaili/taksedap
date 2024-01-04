@@ -97,6 +97,7 @@
 		}
 	}
 	async function handleSubmit() {
+		addPoint()
 		if (locationError) {
 			alert(locationError);
 		} else {
@@ -125,7 +126,7 @@
 	}
 
 	function validateInput() {
-		if (storeName.length > 3 && descriptionList.length > 1 && imageURL) {
+		if (storeName.length > 3 && inputPoint.length > 5 && imageURL) {
 			isDisabled = false;
 		} else {
 			isDisabled = true;
@@ -169,17 +170,16 @@
 	<input type="text" placeholder="Store name" bind:value={storeName} on:input={validateInput} />
 	<small>Or any name that can related to the store</small>
 	<div class="add-container">
-		<div style="width: 100%; margin-right:1rem">
-			<input
+		<div style="width: 100%;">
+			<textarea
+				style="height: 10rem;"
 				bind:value={inputPoint}
-				type="text"
-				placeholder="Why tak sedap"
-				on:change={addPoint}
+				placeholder="Some info of why 'tak sedap'..."
 				on:input={validateInput}
 			/>
 			<small>Too expensive (example)</small>
 		</div>
-		<button class="outline" on:click={addPoint}>+</button>
+		<!-- <button class="outline" on:click={addPoint}>+</button> -->
 	</div>
 
 	{#if descriptionList}
