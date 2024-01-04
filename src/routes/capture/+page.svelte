@@ -97,7 +97,7 @@
 		}
 	}
 	async function handleSubmit() {
-		addPoint()
+		addPoint();
 		if (locationError) {
 			alert(locationError);
 		} else {
@@ -133,11 +133,15 @@
 		}
 	}
 
-	onMount(() => {
+	const addImage = () => {
 		const inputElement = document.getElementById('cameraInput') as HTMLInputElement;
 		inputElement.accept = 'image/*';
 		openCamera();
 		getLocation();
+	};
+
+	onMount(() => {
+		addImage();
 	});
 </script>
 
@@ -152,20 +156,34 @@
 	/>
 	{#if imageURL}
 		<div class="image-container">
-			<ImageEncoder
-				bind:url={imageBase64}
-				src={imageURL}
-				quality={0.7}
-				width={1000}
-				height={1000}
-				realTime={true}
-				crossOrigin={false}
-				classes="image-place-holder"
-				showCompressedResult={false}
-			/>
+			<div style="position: relative;">
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-static-element-interactions -->
+				<i class="fa-solid fa-circle-xmark close-icon" on:click={addImage} />
+				<ImageEncoder
+					bind:url={imageBase64}
+					src={imageURL}
+					quality={0.7}
+					width={1000}
+					height={1000}
+					realTime={true}
+					crossOrigin={false}
+					classes="image-place-holder"
+					showCompressedResult={false}
+				/>
+			</div>
 		</div>
 		<br />
 		<p>Size ({imageBase64 && (imageBase64.length / (1024 * 1024)).toFixed(2)} MB):</p>
+	{:else}
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<div class="image-container" style="padding: 2rem 0 2rem 0;">
+			<div class="upload-container" on:click={addImage}>
+				<div class="upload-icon" style="margin-top: 3rem">&#8679;</div>
+				<p>Click to add picture</p>
+			</div>
+		</div>
 	{/if}
 	<input type="text" placeholder="Store name" bind:value={storeName} on:input={validateInput} />
 	<small>Or any name that can related to the store</small>
@@ -220,9 +238,6 @@
 		display: flex;
 		align-items: baseline;
 	}
-	.add-container input {
-		margin-right: 1rem;
-	}
 	li button {
 		float: right;
 		border: none;
@@ -242,5 +257,31 @@
 		width: 100%;
 		margin-top: 3rem;
 		margin-bottom: 4rem;
+	}
+
+	.upload-container {
+		width: 200px;
+		height: 200px;
+		border: 2px dotted #ccc;
+		border-radius: 8px;
+		overflow: hidden;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	.upload-icon {
+		font-size: 36px;
+		color: #777;
+		margin-top: 30px;
+	}
+
+	.close-icon {
+		position: absolute;
+		font-size: xx-large;
+		padding-top: 0.3rem;
+		padding-right: 0.3rem;
+		top: 0;
+		right: 0;
+		z-index: 9999;
 	}
 </style>
