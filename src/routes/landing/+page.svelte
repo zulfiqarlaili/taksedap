@@ -2,11 +2,23 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
+	const handleScrollingDown = () => {
+		const stepsContent = document.getElementById('steps-content');
+
+		if (stepsContent) {
+			stepsContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		} else {
+			console.error('Element with ID "steps-content" not found');
+		}
+	};
+
 	onMount(() => {
 		localStorage.setItem('isLandingPage', 'false');
 	});
 </script>
 
+<!-- Hero section -->
+<div class="background-overlay" />
 <main class="container main">
 	<p />
 	<hgroup style="margin-bottom: 2;">
@@ -25,18 +37,9 @@
 </main>
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<i
-	class="fa-solid fa-circle-chevron-down bounce-arrow"
-	on:click={() => {
-		const stepsContent = document.getElementById('steps-content');
+<i class="fa-solid fa-circle-chevron-down bounce-arrow" on:click={handleScrollingDown} />
 
-		if (stepsContent) {
-			stepsContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-		} else {
-			console.error('Element with ID "steps-content" not found');
-		}
-	}}
-/>
+<!-- Step section -->
 <div class="steps" id="steps-content">
 	<div style="text-align:center; padding-bottom:2rem">
 		<h2>3 Easy Steps to Make a Difference!</h2>
@@ -56,6 +59,8 @@
 		</div>
 	</ul>
 </div>
+
+<!-- Features section -->
 <div class="container features">
 	<hgroup style="margin-bottom: 6rem; max-width: 25rem; ">
 		<h2>Contribute, Discover, Delight: Your Guide to Tastier Streets!</h2>
@@ -118,6 +123,16 @@
 </div>
 
 <style>
+	.background-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		background: url('https://images.unsplash.com/photo-1568622952260-8db63caafe9a?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
+			center/cover no-repeat;
+		opacity: 0.6;
+	}
 	main {
 		display: flex;
 		flex-direction: column;
@@ -125,17 +140,18 @@
 		align-items: center;
 		height: 90vh;
 		margin: 0;
+		position: relative;
 	}
 
-	h1 {
+	main h1 {
 		text-align: center;
 	}
-	p {
+	main p {
 		text-align: center;
 		color: hsl(205, 10%, 50%);
 	}
 
-	button {
+	main button {
 		margin-top: 1rem;
 		width: 15rem;
 	}
