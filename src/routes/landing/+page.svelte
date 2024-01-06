@@ -31,7 +31,7 @@
 	<ul>
 		<div>
 			<span
-				><i class="fa-regular fa-magnifying-glass-location" /> If you found 'tak sedap' spot</span
+				><i class="fa-solid fa-magnifying-glass"></i> If you found 'tak sedap' spot</span
 			>
 			<br />
 			<span
