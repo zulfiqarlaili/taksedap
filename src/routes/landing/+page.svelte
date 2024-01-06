@@ -23,16 +23,27 @@
 		}}>Lets Go!</button
 	>
 </main>
-<i class="fa-solid fa-circle-chevron-down bounce-arrow" />
-<div class="steps">
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<i
+	class="fa-solid fa-circle-chevron-down bounce-arrow"
+	on:click={() => {
+		const stepsContent = document.getElementById('steps-content');
+
+		if (stepsContent) {
+			stepsContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		} else {
+			console.error('Element with ID "steps-content" not found');
+		}
+	}}
+/>
+<div class="steps" id="steps-content">
 	<div style="text-align:center; padding-bottom:2rem">
 		<h2>3 Easy Steps to Make a Difference!</h2>
 	</div>
 	<ul>
 		<div>
-			<span
-				><i class="fa-solid fa-magnifying-glass"></i> If you found 'tak sedap' spot</span
-			>
+			<span><i class="fa-solid fa-magnifying-glass" /> If you found 'tak sedap' spot</span>
 			<br />
 			<span
 				><i class="fa-solid fa-circle-plus" />Open our site and simply add store details with
@@ -158,6 +169,10 @@
 	}
 
 	.features p {
+		text-align: justify;
+	}
+
+	.features h3 {
 		text-align: justify;
 	}
 
