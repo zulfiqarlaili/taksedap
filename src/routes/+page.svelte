@@ -11,7 +11,7 @@
 		updateReactionCountDb
 	} from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
-	import Tutorial from '$lib/Tutorial.svelte';
+	import { goto } from '$app/navigation';
 
 	const example: IStore = {
 		storeId: '7c19ee18-9dbf-4452-aa08-5119b3284756',
@@ -19,7 +19,7 @@
 		descriptionList: ['Expensive (example)', 'tasteless (example)'],
 		url: 'https://gxqszfrqmsnuzuetyjgz.supabase.co/storage/v1/object/public/storeImage/7c19ee18-9dbf-4452-aa08-5119b3284756',
 		likeCount: 0,
-		dislikeCount: 0,
+		dislikeCount: 0
 	};
 
 	let data: any = [];
@@ -58,8 +58,8 @@
 						data = data.filter(
 							(store: { distMeters: number }) => store.distMeters <= nearbyRadiusInMeter
 						);
-						if (data.length === 0 && isTutorial){
-							data.push(example)
+						if (data.length === 0 && isTutorial) {
+							data.push(example);
 						}
 
 						isLoading = false;
@@ -72,10 +72,10 @@
 					alert(err.message);
 					isLoading = false;
 				}
-				);
-			} else {
-				alert('Geolocation is not supported by this browser.');
-				isLoading = false;
+			);
+		} else {
+			alert('Geolocation is not supported by this browser.');
+			isLoading = false;
 		}
 	};
 	function handleScroll() {
@@ -105,6 +105,9 @@
 		if (!localStorage.getItem('isTutorial')) {
 			isTutorial = true;
 		}
+		if (!localStorage.getItem('isLandingPage')) {
+			goto('/landing');
+		}
 
 		// TODO: Will implement when needed
 		// let visit = localStorage.getItem('visit');
@@ -131,7 +134,7 @@
 </script>
 
 <div class="cardList_container">
-	<Tutorial isOpen={isTutorial} />
+	<!-- <Tutorial isOpen={isTutorial} /> -->
 	{#if isLoading}
 		<Card reaction={undefined} {isLoading} />
 		<br />
@@ -154,7 +157,13 @@
 </div>
 
 {#if isVisible}
-	<a href="/capture" class="circle-button">+</a>
+	<a
+		href="/capture"
+		on:click={() => {
+			localStorage.setItem('isTutorial', 'false');
+		}}
+		class="circle-button">+</a
+	>
 {/if}
 
 <style>

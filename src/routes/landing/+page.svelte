@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		localStorage.setItem('isLandingPage', 'false');
+	});
 </script>
+
 <main class="container main">
 	<p />
 	<hgroup style="margin-bottom: 2;">
@@ -10,9 +16,12 @@
 			experience together!
 		</p>
 	</hgroup>
-	<button class="secondary" on:click={()=>{
-		goto('/');
-	}}>Lets Go!</button>
+	<button
+		class="secondary"
+		on:click={() => {
+			goto('/');
+		}}>Lets Go!</button
+	>
 </main>
 <div class="steps">
 	<div style="text-align:center; padding-bottom:2rem">
