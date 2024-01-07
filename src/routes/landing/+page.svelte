@@ -145,10 +145,11 @@
 
 	main h1 {
 		text-align: center;
+		color: white;
 	}
 	main p {
 		text-align: center;
-		color: hsl(205, 10%, 50%);
+		color: aliceblue;
 	}
 
 	main button {
