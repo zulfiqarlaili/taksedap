@@ -9,13 +9,14 @@
 	function handleChatPopup() {
 		const typebotInitScript = document.createElement('script');
 		typebotInitScript.type = 'module';
-		typebotInitScript.innerHTML = `import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.2.25/dist/web.js'
-				Typebot.initPopup({
-				typebot: "tak-sedap",
-				apiHost: "https://bot.07102020.xyz",
-				autoShowDelay: 0,
-			});
-			`;
+		typebotInitScript.innerHTML = `
+		import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.2.31/dist/web.js'
+		Typebot.initPopup({
+  		typebot: "taksedap",
+  		apiHost: "https://bot.07102020.xyz",
+  		autoShowDelay: 0,
+		});
+		`;
 		document.body.append(typebotInitScript);
 	}
 	onMount(() => {});
