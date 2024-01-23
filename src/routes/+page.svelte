@@ -28,7 +28,7 @@
 	let scrollTimeout: any;
 	let isLoading = true;
 	let isTutorial = false;
-	const nearbyRadiusInMeter: number = 4000;
+	const nearbyRadiusInMeter: number = 1000;
 
 	supabase
 		.channel(PUBLIC_TABLE_NAME)
