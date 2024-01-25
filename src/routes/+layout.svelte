@@ -1,10 +1,6 @@
 <script lang="ts">
-	import { dev } from '$app/environment';
-	import { inject } from '@vercel/analytics';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-
-	inject({ mode: dev ? 'development' : 'production' });
 
 	function handleChatPopup() {
 		const typebotInitScript = document.createElement('script');

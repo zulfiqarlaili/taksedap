@@ -37,7 +37,6 @@
 	"type": "module",
 	"dependencies": {
 		"@supabase/supabase-js": "^2.38.4",
-		"@vercel/analytics": "^1.1.1",
 		"svelte-image-input": "^0.1.3",
 		"uuid": "^9.0.1"
 	}
