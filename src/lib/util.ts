@@ -38,7 +38,7 @@ export function isReaction(storeId: string) {
 
 export async function updateReactionCountDb(storeId: string, extraParam: IExtraParam) {
 	const updateData = await generateReactionCountUpdateData(storeId, extraParam);
-	const { error } = await supabase
+	const { data, error } = await supabase
 		.from(PUBLIC_TABLE_NAME)
 		.update(updateData)
 		.eq('storeId', storeId)
@@ -46,7 +46,9 @@ export async function updateReactionCountDb(storeId: string, extraParam: IExtraP
 
 	if (error) {
 		console.error('Error updating database:', error.message);
+		return null
 	}
+	return data
 }
 
 export function addOrUpdateReaction(storeId: string, reaction: boolean | undefined) {

@@ -4,11 +4,8 @@
 	import type { IStore } from '$lib/interface';
 	import { supabase } from '$lib/supabaseClient';
 	import {
-		addOrUpdateReaction,
-		deleteReaction,
 		getNearbyStore,
 		isReaction,
-		updateReactionCountDb
 	} from '$lib/util';
 	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
@@ -86,21 +83,6 @@
 		}, 1000);
 	}
 
-	function handleReactionButton(event: any) {
-		const store: IStore = event.detail;
-
-		store.removeReaction
-			? deleteReaction(store.storeId)
-			: addOrUpdateReaction(store.storeId, store.reaction);
-
-		updateReactionCountDb(store.storeId, {
-			reaction: store.reaction,
-			removeReaction: store.removeReaction,
-			isReactionSwitch: store.isReactionSwitch,
-			previousReaction: store.previousReaction
-		});
-	}
-
 	onMount(async () => {
 		if (!localStorage.getItem('isTutorial')) {
 			isTutorial = true;
@@ -150,7 +132,7 @@
 			</article>
 		{/if}
 		{#each data as store}
-			<Card reaction={isReaction(store.storeId)} bind:store on:cardClicked={handleReactionButton} />
+			<Card reaction={isReaction(store.storeId)} bind:store />
 			<br />
 		{/each}
 	{/if}

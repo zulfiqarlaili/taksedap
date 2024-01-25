@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { IStore } from '../lib/interface.js';
-	import { createEventDispatcher } from 'svelte';
 	import { lazyLoad } from '$lib/lazyLoad.js';
+	import { addOrUpdateReaction, deleteReaction, updateReactionCountDb } from './util.js';
 
 	export let store: IStore = {
 		storeId: '',
@@ -12,9 +12,9 @@
 		dislikeCount: 0
 	};
 	export let isLoading = false;
+	export let isLikeLoading = false;
+	export let isDislikeLoading = false;
 	export let reaction: boolean | undefined;
-
-	const dispatch = createEventDispatcher();
 
 	function handleReaction(input: boolean | undefined) {
 		switch (reaction) {
@@ -33,6 +33,8 @@
 	}
 
 	function handleReactionButton(input: boolean | undefined) {
+		input ? isLikeLoading = true : isDislikeLoading = true
+
 		let isReactionSwitch =
 			reaction === true && input === false
 				? true
@@ -51,20 +53,21 @@
 		if ((input === false && reaction == undefined) || (input === true && reaction == undefined)) {
 			removeReaction = true;
 		}
-		dispatch('cardClicked', {
-			...store,
+		removeReaction
+			? deleteReaction(store.storeId)
+			: addOrUpdateReaction(store.storeId, reaction);
+		updateReactionCountDb(store.storeId, {
 			reaction,
 			removeReaction,
 			isReactionSwitch,
 			previousReaction
-		});
+		}).then(()=> input ? isLikeLoading = false : isDislikeLoading = false);
 	}
 </script>
 
 <div class="container">
 	{#if isLoading}
-		<article class="skeleton-loading">
-		</article>
+		<article class="skeleton-loading" />
 	{:else}
 		<details>
 			<summary>
@@ -74,20 +77,30 @@
 						{store.storeName}
 						<div class="reaction-container">
 							<button
+								disabled={isLikeLoading}
+								aria-busy={isLikeLoading}
 								on:click={() => {
 									handleReactionButton(true);
 								}}
 							>
-								<i class={`fa-solid fa-thumbs-up ${reaction === true ? 'reacted-true' : ''}`} />
-								{store.likeCount}
+								{#if !isLikeLoading}
+									<i class={`fa-solid fa-thumbs-up ${reaction === true ? 'reacted-true' : ''}`} />
+									{store.likeCount}
+								{/if}
 							</button>
 							<button
+								disabled={isDislikeLoading}
+								aria-busy={isDislikeLoading}
 								on:click={() => {
 									handleReactionButton(false);
 								}}
 							>
-								<i class={`fa-solid fa-thumbs-down ${reaction === false ? 'reacted-false' : ''}`} />
-								{store.dislikeCount}
+								{#if !isDislikeLoading}
+									<i
+										class={`fa-solid fa-thumbs-down ${reaction === false ? 'reacted-false' : ''}`}
+									/>
+									{store.dislikeCount}
+								{/if}
 							</button>
 						</div>
 					</div>
