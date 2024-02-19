@@ -1,19 +1,20 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-
+	
 	function handleChatPopup() {
-		const typebotInitScript = document.createElement('script');
-		typebotInitScript.type = 'module';
-		typebotInitScript.innerHTML = `
-		import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.2.31/dist/web.js'
-		Typebot.initPopup({
-  		typebot: "taksedap",
-  		apiHost: "https://bot.07102020.xyz",
-  		autoShowDelay: 0,
-		});
-		`;
-		document.body.append(typebotInitScript);
+		// const typebotInitScript = document.createElement('script');
+		// typebotInitScript.type = 'module';
+		// typebotInitScript.innerHTML = `
+		// import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.2.31/dist/web.js'
+		// Typebot.initPopup({
+		// typebot: "taksedap",
+		// apiHost: "https://bot.07102020.xyz",
+		// autoShowDelay: 0,
+		// });
+		// `;
+		// document.body.append(typebotInitScript);
+		(window as any).$chatwoot.toggle("open");
 	}
 	onMount(() => {});
 </script>

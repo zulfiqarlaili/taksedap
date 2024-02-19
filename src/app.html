@@ -10,6 +10,25 @@
 			data-website-id="cd56699d-a3de-452b-b3b2-a0e4c8dde779"
 			data-domains="taksedap.vercel.app"
 		></script>
+		<script>
+			window.chatwootSettings = { hideMessageBubble: 'true', type: 'expanded_bubble' };
+			(function (d, t) {
+				var BASE_URL = 'https://chatwoot.07102020.xyz';
+				var g = d.createElement(t),
+					s = d.getElementsByTagName(t)[0];
+				g.src = BASE_URL + '/packs/js/sdk.js';
+				g.defer = true;
+				g.async = true;
+				s.parentNode.insertBefore(g, s);
+				g.onload = function () {
+					window.chatwootSDK.run({
+						websiteToken: 'nCb12BNN811kfm3heAN3KAEh',
+						baseUrl: BASE_URL
+					});
+				};
+			})(document, 'script');
+		</script>
+
 		<link
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/@picocss/pico@next/css/pico.min.css"
